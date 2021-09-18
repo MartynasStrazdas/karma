@@ -1,0 +1,44 @@
+﻿@page "/"
+
+@using karma.Data
+@inject CharityService CharityService
+
+<h1>Charities</h1>
+
+@if (charities == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Added</th>
+                <th>Website</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var charity in charities)
+            {
+                <tr>
+                    <td>@charity.Name</td>
+                    <td>@charity.Description</td>
+                    <td>@charity.Added.ToShortDateString()</td>
+                    <td>@charity.Website</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Charity[] charities;
+
+    protected override async Task OnInitializedAsync()
+    {
+        charities = await CharityService.GetCharitiesAsync(DateTime.Now);
+    }
+}
