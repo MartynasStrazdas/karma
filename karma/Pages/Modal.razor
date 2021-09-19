@@ -1,0 +1,43 @@
+﻿<div class="simple-form">
+    <div class="form-group">
+        <label for="charity-name">Charity name</label>
+        <input @bind="CharityName" type="text" class="form-control" id="charity-name" placeholder="Enter Charity name" />
+    </div>
+
+    <div class="form-group">
+        <label for="description">Charity description</label>
+        <input @bind="CharityDescription" type="text" class="form-control" id="description" placeholder="Enter Charity description" />
+    </div>
+
+    <div class="form-group">
+        <label for="website-link">Website link</label>
+        <input @bind="Website" type="text" class="form-control" id="website-link" placeholder="Enter Website link" />
+    </div>
+
+
+    <button @onclick="SubmitForm" class="btn btn-primary">Submit</button>
+    <button @onclick="Cancel" class="btn btn-secondary">Cancel</button>
+</div>
+
+@code {
+
+
+    [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; }
+
+    bool ShowForm { get; set; } = true;
+    string CharityName { get; set; }
+    string CharityDescription { get; set; }
+    string Website { get; set; }
+
+    int FormId { get; set; }
+
+    void SubmitForm()
+    {
+        ModalInstance.CloseAsync(ModalResult.Ok($"Form was submitted successfully."));
+    }
+
+    void Cancel()
+    {
+        ModalInstance.CancelAsync();
+    }
+ }
