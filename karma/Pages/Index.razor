@@ -5,45 +5,68 @@
 
 <h1>Charities</h1>
 
-    <button @onclick="@(()=>Modal.Show<Modal>("Add charity"))" class="btn btn-primary">Add charity</button>
+<button @onclick="ShowModal" class="btn btn-primary" style="float:right;">Add charity</button>
 
-    @if (charities == null)
-    {
-        <p><em>Loading...</em></p>
-    }
-    else
-    {
-        <table class="table">
-            <thead>
+@if (charities == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Added</th>
+                <th>Website</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var charity in charities)
+            {
                 <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Added</th>
-                    <th>Website</th>
+                    <td>@charity.Name</td>
+                    <td>@charity.Description</td>
+                    <td>@charity.Added.ToShortDateString()</td>
+                    <td>@charity.Website</td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (var charity in charities)
-                {
-                    <tr>
-                        <td>@charity.Name</td>
-                        <td>@charity.Description</td>
-                        <td>@charity.Added.ToShortDateString()</td>
-                        <td>@charity.Website</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Charity[] charities;
+    [CascadingParameter] public IModalService Modal { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        charities = await CharityService.GetCharitiesAsync(DateTime.Now);
     }
 
-    @code {
-        private Charity[] charities;
-        [CascadingParameter] public IModalService Modal { get; set; }
+    async Task ShowModal()
+    {
 
-
-        protected override async Task OnInitializedAsync()
+        var options = new ModalOptions()
         {
-            charities = await CharityService.GetCharitiesAsync(DateTime.Now);
-        }
+            //Position = ModalPosition.Center
+            DisableBackgroundCancel = true
+        };
+        var formModal = Modal.Show<Modal>("Add charity", options);
+        var result = await formModal.Result;
 
+        if (result.Cancelled)
+        {
+            Console.WriteLine("Modal was cancelled");
+        }
+        else
+        {
+            karma.Data.CharityService.AddCharityToDataBase((karma.Data.Charity)result.Data);
+
+        }
     }
+
+
+}
