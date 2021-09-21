@@ -21,7 +21,7 @@ namespace karma.Data
             return strngbuilder;
         }
 
-        public Task<Charity[]> GetCharitiesAsync(DateTime startDate)
+        public Task<List<Charity>> GetCharitiesAsync(DateTime startDate)
         {
             List<Charity> charities = new List<Charity>();
 
@@ -55,27 +55,26 @@ namespace karma.Data
                 Console.WriteLine(e.ToString());
             }
 
-            return Task.FromResult(Enumerable.Range(0, charities.Count).Select(index => charities[index]).ToArray());
+            return Task.FromResult(charities);
         }
         
         public static void AddCharityToDataBase(Charity charity)
         {
-            if(charity != null)
+            if (charity != null)
             {
                 try
                 {
-                    SqlConnectionStringBuilder strngbuilder = AccessDataBase();
-                    SqlConnection mysqlconnection = new(strngbuilder.ConnectionString);
+                    SqlConnectionStringBuilder stringbuilder = AccessDataBase();
+                    SqlConnection mysqlconnection = new(stringbuilder.ConnectionString);
                     mysqlconnection.Open();
-                    string sql = "INSERT INTO charity(name, description, added, website) VALUES(@param1,@param2,GETDATE(),@param4)";
+                    string sql = "INSERT INTO charity(name, description, added, website) VALUES(@param1,@param2,GETDATE(),@param3)";
 
                     // Prepare the command to be executed on the db
-                    using (SqlCommand cmd = new SqlCommand(sql, mysqlconnection))
+                    using (SqlCommand cmd = new(sql, mysqlconnection))
                     {
                         cmd.Parameters.Add("@param1", SqlDbType.NVarChar).Value = charity.Name;
                         cmd.Parameters.Add("@param2", SqlDbType.NVarChar).Value = charity.Description;
-                        //cmd.Parameters.Add("@param3", SqlDbType.DateTime).Value = GE;
-                        cmd.Parameters.Add("@param4", SqlDbType.NVarChar).Value = charity.Website;
+                        cmd.Parameters.Add("@param3", SqlDbType.NVarChar).Value = charity.Website;
                         cmd.CommandType = CommandType.Text;
                         cmd.ExecuteNonQuery();
                     }
@@ -84,7 +83,6 @@ namespace karma.Data
                 {
                     Console.WriteLine(e.ToString());
                 }
-
 
                 System.Diagnostics.Debug.WriteLine(charity.Name + " " + charity.Description + " " + charity.Website);
             }

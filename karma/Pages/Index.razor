@@ -37,7 +37,7 @@ else
 }
 
 @code {
-    private Charity[] charities;
+    private List<Charity> charities;
     [CascadingParameter] public IModalService Modal { get; set; }
 
 
@@ -63,8 +63,11 @@ else
         }
         else
         {
-            karma.Data.CharityService.AddCharityToDataBase((karma.Data.Charity)result.Data);
-
+            Charity charity = (Charity) result.Data;
+            karma.Data.CharityService.AddCharityToDataBase(charity);
+            
+            charity.Added = DateTime.Now;
+            charities.Add(charity);
         }
     }
 
