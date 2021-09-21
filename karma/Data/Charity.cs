@@ -12,6 +12,12 @@ namespace karma.Data
             this.Added = Added;
             this.Website = Website;
         }
+        public Charity(string Name, string Description, string Website)
+        {
+            this.Name = Name;
+            this.Description = Description;
+            this.Website = Website;
+        }
 
         public int Id { get; set; }
         public string Name { get; set; }

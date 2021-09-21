@@ -1,4 +1,28 @@
-﻿<div class="simple-form">
+﻿@code {
+
+
+    [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; }
+
+    bool ShowForm { get; set; } = true;
+    string CharityName { get; set; }
+    string CharityDescription { get; set; }
+    string Website { get; set; }
+
+    int FormId { get; set; }
+
+    void SubmitForm()
+    {
+        karma.Data.Charity charity = new(CharityName, CharityDescription, Website);
+        ModalInstance.CloseAsync(ModalResult.Ok(charity));
+    }
+
+    void Cancel()
+    {
+        ModalInstance.CancelAsync();
+    }
+}
+
+<div class="simple-form">
     <div class="form-group">
         <label for="charity-name">Charity name</label>
         <input @bind="CharityName" type="text" class="form-control" id="charity-name" placeholder="Enter Charity name" />
@@ -18,26 +42,3 @@
     <button @onclick="SubmitForm" class="btn btn-primary">Submit</button>
     <button @onclick="Cancel" class="btn btn-secondary">Cancel</button>
 </div>
-
-@code {
-
-
-    [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; }
-
-    bool ShowForm { get; set; } = true;
-    string CharityName { get; set; }
-    string CharityDescription { get; set; }
-    string Website { get; set; }
-
-    int FormId { get; set; }
-
-    void SubmitForm()
-    {
-        ModalInstance.CloseAsync(ModalResult.Ok($"Form was submitted successfully."));
-    }
-
-    void Cancel()
-    {
-        ModalInstance.CancelAsync();
-    }
- }
