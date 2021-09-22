@@ -1,11 +1,12 @@
 ﻿@page "/"
 
 @using karma.Data
+@using System.Timers
 @inject CharityService CharityService
 
 <h1>Charities</h1>
 
-<button @onclick="ShowModal" class="btn btn-primary" style="float:right;">Add charity</button>
+<RadzenButton Text="Add charity" style="float:right;"></RadzenButton>
 
 @if (charities == null)
 {
@@ -38,9 +39,7 @@ else
 
 @code {
     private List<Charity> charities;
-    [CascadingParameter] public IModalService Modal { get; set; }
-
-
+    /*
     protected override async Task OnInitializedAsync()
     {
         charities = await CharityService.GetCharitiesAsync(DateTime.Now);
@@ -71,5 +70,5 @@ else
         }
     }
 
-
+    */
 }
