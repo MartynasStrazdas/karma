@@ -1,0 +1,7 @@
+.app_top {
+    display: table-cell;
+}
+
+    .app_top img {
+        float: left;
+    }
