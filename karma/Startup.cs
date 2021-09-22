@@ -1,4 +1,3 @@
-using Blazored.Modal;
 using karma.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
@@ -11,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Radzen;
 
 namespace karma
 {
@@ -30,7 +30,7 @@ namespace karma
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<CharityService>();
-            services.AddBlazoredModal();
+            services.AddScoped<DialogService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
