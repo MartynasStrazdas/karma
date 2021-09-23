@@ -59,6 +59,7 @@ else
 
     void Close(dynamic result)
     {
+        if (result == null) return;
         // Parse tuple from result
         Tuple<bool, Charity> resultTuple = result;
         var status = resultTuple.Item1;
