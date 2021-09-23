@@ -1,14 +1,13 @@
 ﻿@page "/"
-
 @using karma.Data
-@using System.Timers
-@inject CharityService CharityService
+@inject DialogService _dialogService
+@implements IDisposable
 
 <h1>Charities</h1>
 
-<RadzenButton Text="Add charity" style="float:right;"></RadzenButton>
+<RadzenButton Text="Add charity" style="float:right;" Click="@OpenDialog" />
 
-@if (charities == null)
+@if (_charities == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -24,7 +23,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var charity in charities)
+            @foreach (var charity in _charities)
             {
                 <tr>
                     <td>@charity.Name</td>
@@ -37,38 +36,50 @@ else
     </table>
 }
 
-@code {
-    private List<Charity> charities;
-    /*
-    protected override async Task OnInitializedAsync()
+@code
+{
+    private readonly List<Charity> _charities = new();
+
+    protected override void OnInitialized()
     {
-        charities = await CharityService.GetCharitiesAsync(DateTime.Now);
+        _dialogService.OnOpen += Open;
+        _dialogService.OnClose += Close;
     }
 
-    async Task ShowModal()
+    public void Dispose()
     {
+        _dialogService.OnOpen -= Open;
+        _dialogService.OnClose -= Close;
+    }
 
-        var options = new ModalOptions()
-        {
-            //Position = ModalPosition.Center
-            DisableBackgroundCancel = true
-        };
-        var formModal = Modal.Show<Modal>("Add charity", options);
-        var result = await formModal.Result;
+    void Open(string title, Type type, Dictionary<string, object> parameters, DialogOptions options)
+    {
+        // do nothing
+    }
 
-        if (result.Cancelled)
+    void Close(dynamic result)
+    {
+        // Parse tuple from result
+        Tuple<bool, Charity> resultTuple = result;
+        var status = resultTuple.Item1;
+        var charity = resultTuple.Item2;
+
+        // Add charity to database, if submitted
+        if (status)
         {
-            Console.WriteLine("Modal was cancelled");
-        }
-        else
-        {
-            Charity charity = (Charity) result.Data;
-            karma.Data.CharityService.AddCharityToDataBase(charity);
-            
+            CharityService.AddCharityToDataBase(charity);
             charity.Added = DateTime.Now;
-            charities.Add(charity);
+            _charities.Add(charity);
         }
     }
 
-    */
+    public async Task OpenDialog()
+    {
+        await _dialogService.OpenAsync<Modal>
+        (
+        "Enter a new charity",
+        new Dictionary<string, object>(),
+        new DialogOptions { Width = "700px", Height = "530px" }
+        );
+    }
 }
