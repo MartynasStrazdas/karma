@@ -38,7 +38,12 @@ else
 
 @code
 {
-    private readonly List<Charity> _charities = new();
+    private List<Charity> _charities;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _charities = await CharityService.GetCharitiesAsync();
+    }
 
     protected override void OnInitialized()
     {

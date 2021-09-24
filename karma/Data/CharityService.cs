@@ -21,7 +21,7 @@ namespace karma.Data
             return strngbuilder;
         }
 
-        public Task<List<Charity>> GetCharitiesAsync(DateTime startDate)
+        public static Task<List<Charity>> GetCharitiesAsync()
         {
             List<Charity> charities = new List<Charity>();
 
