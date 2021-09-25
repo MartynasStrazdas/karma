@@ -10,24 +10,13 @@ namespace karma.Data
 {
     public class CharityService
     {
-        // Returns a database connection string
-        private static string GetDatabaseConnectionString()
-        {
-            SqlConnectionStringBuilder strngbuilder = new();
-            strngbuilder.DataSource = "db-karma.database.windows.net";
-            strngbuilder.UserID = "db-karma";
-            strngbuilder.Password = Environment.GetEnvironmentVariable("db-password", EnvironmentVariableTarget.Machine);
-            strngbuilder.InitialCatalog = "db-karma";
-            return strngbuilder.ConnectionString;
-        }
-
         public static Task<List<Charity>> GetCharitiesAsync()
         {
             List<Charity> charities = new List<Charity>();
 
             try
             {
-                SqlConnection mysqlconnection = new(GetDatabaseConnectionString());
+                SqlConnection mysqlconnection = new(Startup.DBConnectionString);
 
                 StringBuilder sb = new();
                 sb.Append("SELECT * from charity");
@@ -63,7 +52,7 @@ namespace karma.Data
             {
                 try
                 {
-                    SqlConnection mysqlconnection = new(GetDatabaseConnectionString());
+                    SqlConnection mysqlconnection = new(Startup.DBConnectionString);
                     mysqlconnection.Open();
                     string sql = "INSERT INTO charity(name, description, added, website) VALUES(@param1,@param2,GETDATE(),@param3)";
 
