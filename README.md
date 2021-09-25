@@ -14,6 +14,4 @@ Made with C# and Blazor
 # Local development
 Built with Visual Studio 2019 Community. For local development, these environment variables are required to be set:
 
-* `db-url`: URL to the SQL Server database (only tested with Azure SQL)
-* `db-username`: Username of the database user
-* `db-password`: Password of the database user
+* `db-connection-string`: Azure SQL database connection string (e.g., "Data Source=tcp:database-name.database.windows.net,1433;Initial Catalog=database-username;User Id=database-username@database-username;Password=database-password")
