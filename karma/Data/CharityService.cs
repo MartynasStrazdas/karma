@@ -10,15 +10,15 @@ namespace karma.Data
 {
     public class CharityService
     {
-        // Creates a connection between server and data base
-        private static SqlConnectionStringBuilder AccessDataBase()
+        // Returns a database connection string
+        private static string GetDatabaseConnectionString()
         {
             SqlConnectionStringBuilder strngbuilder = new();
-            strngbuilder.DataSource = Environment.GetEnvironmentVariable("db-url", EnvironmentVariableTarget.Machine);
-            strngbuilder.UserID = Environment.GetEnvironmentVariable("db-username", EnvironmentVariableTarget.Machine);
+            strngbuilder.DataSource = "db-karma.database.windows.net";
+            strngbuilder.UserID = "db-karma";
             strngbuilder.Password = Environment.GetEnvironmentVariable("db-password", EnvironmentVariableTarget.Machine);
-            strngbuilder.InitialCatalog = Environment.GetEnvironmentVariable("db-username", EnvironmentVariableTarget.Machine);
-            return strngbuilder;
+            strngbuilder.InitialCatalog = "db-karma";
+            return strngbuilder.ConnectionString;
         }
 
         public static Task<List<Charity>> GetCharitiesAsync()
@@ -27,8 +27,7 @@ namespace karma.Data
 
             try
             {
-                SqlConnectionStringBuilder strngbuilder = AccessDataBase();
-                SqlConnection mysqlconnection = new(strngbuilder.ConnectionString);
+                SqlConnection mysqlconnection = new(GetDatabaseConnectionString());
 
                 StringBuilder sb = new();
                 sb.Append("SELECT * from charity");
@@ -64,8 +63,7 @@ namespace karma.Data
             {
                 try
                 {
-                    SqlConnectionStringBuilder stringbuilder = AccessDataBase();
-                    SqlConnection mysqlconnection = new(stringbuilder.ConnectionString);
+                    SqlConnection mysqlconnection = new(GetDatabaseConnectionString());
                     mysqlconnection.Open();
                     string sql = "INSERT INTO charity(name, description, added, website) VALUES(@param1,@param2,GETDATE(),@param3)";
 
