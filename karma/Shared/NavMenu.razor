@@ -1,11 +1,37 @@
-﻿<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-      <div class="d-flex flex-row">
-         <img src="./img/charieNoShadowLogo.png" alt="Charie" width="100" height="50" style="padding-right: 20px"/>
-         <RadzenMenu>
-            <RadzenMenuItem Text="Home" Path="/" Icon="home"></RadzenMenuItem>
-            <RadzenMenuItem Text="Announcements" Path="announcements" Icon="feedback"></RadzenMenuItem>
-        </RadzenMenu>
-      </div>
-  </div>
-</nav>
+﻿
+<div class="my-navbar">
+    <div class="container">
+        <a class="logo-desktop" href="#">Cha<span>rie</span></a>
+        <a class="logo-mobile" href="#"><img src="/img/favicon.png" alt="Charie logo"></a>
+
+        <img  id="mobile-cta" class="mobile-menu" src="img/menu.svg" @onclick="ExpandMenu" alt="Expand navigation menu">
+
+        <nav class="@MenuButtonClass">
+            <img id="mobile-exit" class="mobile-exit" src="img/exit.svg" @onclick="CloseMenu" alt="Exit navigation">
+            <ul class="primary-nav">
+                <li class="current"><a href="#">Home</a></li>
+                <li><a href="Announcements">Announcements</a></li>
+                <li><a href="Listings">Listings</a></li>
+                <li><a href="Charities">Charities</a></li>
+            </ul>
+
+            <ul class="secondary-nav">
+                <li><a href="#contact">Contact</a></li>
+                <li class="login-btn"><a href="#">Login</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+@code{
+    private String MenuButtonClass = "nav-not-pressed"; //Determines <nav> class, to open mobile navbar.
+
+    private void ExpandMenu()
+    {
+        MenuButtonClass = "nav-pressed"; //Changes <nav> class to expand mobile menu.
+    }
+    private void CloseMenu()
+    {
+        MenuButtonClass = "nav-not-pressed"; //Changes <nav> class to close mobile menu.
+    }
+}
