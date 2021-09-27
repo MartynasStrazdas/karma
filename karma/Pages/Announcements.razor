@@ -1,95 +1,27 @@
 ﻿@page "/announcements"
 
-@inject DialogService DialogService
-
-
-<RadzenButton Text="Add Announcement" Click=@ShowInlineDialog />
-
-<div>
-    @foreach (var listing in listings)
-    {
-<RadzenCard>
-    <div class="row">
-        <div class="app_top">
-            <RadzenImage Path="@listing.ImageSource" Style="width:100px;" />
-        </div>
-        <div class="col-sm-6">
-            <h2>@listing.Title</h2>
-            <p>@listing.Text</p>
-        </div>
+<div class="announcements-place">
+    <div class="container">
+        <ul>
+            <li>
+                <img src="img/save the children.png" alt="Charity photo">
+                <h1>Searhing volunteers</h1>
+                <p>We are in need of volunteers who can help us to do some stuff. If intrested apply <a href="https://www.savethechildren.net/">here.</a></p>
+            </li>
+            <li>
+                <img src="img/save the children.png" alt="Charity photo">
+                <h1>Searhing volunteers</h1>
+                <p>We are in need of volunteers who can help us to do some stuff. If intrested apply <a href="https://www.savethechildren.net/">here.</a></p>
+            </li>
+            <li>
+                <img src="img/save the children.png" alt="Charity photo">
+                <h1>Searhing volunteers</h1>
+                <p>We are in need of volunteers who can help us to do some stuff. If intrested apply <a href="https://www.savethechildren.net/">here.</a></p>
+            </li>
+        </ul>
     </div>
-</RadzenCard>}
 </div>
 
 
-
-@code { private string announcementText, announcementTitle;
-
-            private List<AnnouncementListing> listings = new();
-
-
-            private void AddAnnouncement()
-            {
-                listings.Add(new AnnouncementListing
-                {
-                    ImageSource = "./img/maltieciai.png",
-                    Title = announcementTitle,
-                    Text = announcementText
-                });
-                announcementText = null;
-                announcementTitle = null;
-            }
-            protected override void OnInitialized()
-            {
-                DialogService.OnOpen += Open;
-                DialogService.OnClose += Close;
-            }
-
-            public void Dispose()
-            {
-                // The DialogService is a singleton so it is advisable to unsubscribe.
-                DialogService.OnOpen -= Open;
-                DialogService.OnClose -= Close;
-            }
-
-            void Open(string title, Type type, Dictionary<string, object> parameters, DialogOptions options)
-            {
-
-            }
-
-            void Close(dynamic result)
-            {
-
-            }
-
-            async Task ShowInlineDialog()
-            {
-                var result = await DialogService.OpenAsync("Add announcement", ds =>
-    @<div>
-        <div class="col-md-12">
-            <RadzenTextBox Placeholder="Title..." Change="(args => OnChangeTitle(args))" />
-        </div>
-        <div class="col-md-12">
-            <RadzenTextArea Placeholder="Text..." Change="(args => OnChangeText(args))" />
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <RadzenButton Text="Done" Click="() => { ds.Close(true); AddAnnouncement(); }" Style="margin-bottom: 10px; width: 150px" />
-                <RadzenButton Text="Cancel" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Secondary" Style="margin-bottom: 10px; width: 150px" />
-            </div>
-        </div>
-    </div>);
-
-
-            }
-
-            void OnChangeTitle(string value)
-            {
-                announcementTitle = value;
-            }
-            void OnChangeText(string value)
-            {
-                announcementText = value;
-            }
+@code { 
 }

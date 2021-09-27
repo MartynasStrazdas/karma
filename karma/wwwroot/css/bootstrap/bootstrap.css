@@ -4199,19 +4199,7 @@ fieldset:disabled .btn {
   display: block;
 }
 
-.navbar {
-  position: relative;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -ms-flex-align: center;
-  align-items: center;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
-}
+
 
 .navbar > .container,
 .navbar > .container-fluid, .navbar > .container-sm, .navbar > .container-md, .navbar > .container-lg, .navbar > .container-xl, .navbar > .container-xxl {
@@ -4234,15 +4222,6 @@ fieldset:disabled .btn {
   white-space: nowrap;
 }
 
-.navbar-nav {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  padding-left: 0;
-  margin-bottom: 0;
-  list-style: none;
-}
 
 .navbar-nav .nav-link {
   padding-right: 0;
@@ -4253,10 +4232,7 @@ fieldset:disabled .btn {
   position: static;
 }
 
-.navbar-text {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-}
+
 
 .navbar-collapse {
   -ms-flex-preferred-size: 100%;
@@ -11080,16 +11056,6 @@ fieldset:disabled .btn {
   }
 }
 
-.navbar {
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  font-weight: 600;
-}
-
-.navbar-nav .nav-link {
-  padding-top: .715rem;
-  padding-bottom: .715rem;
-}
 
 .navbar-brand {
   margin-right: 2rem;

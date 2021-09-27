@@ -1,0 +1,82 @@
+﻿@page "/charities"
+@using karma.Data
+@inject DialogService _dialogService
+@implements IDisposable
+
+<div class="charities-place">
+    <div class="container">
+        @if (_charities == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            <ul>
+                @foreach (var charity in _charities)
+                {
+                <li>
+                    <img src="img/save the children.png" alt="Charity logo">
+                    <h2>@charity.Name</h2>
+                    <p>@charity.Description</p>
+                    <a class="themed-button" href="@charity.Website">Website</a>
+                    <a class="themed-button" href="#">Donate</a>
+                </li>
+                }
+            </ul>
+        }
+    </div>
+</div>
+
+@code {
+    private List<Charity> _charities;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _charities = await CharityService.GetCharitiesAsync();
+    }
+
+
+    protected override void OnInitialized()
+    {
+        _dialogService.OnOpen += Open;
+        _dialogService.OnClose += Close;
+    }
+
+    public void Dispose()
+    {
+        _dialogService.OnOpen -= Open;
+        _dialogService.OnClose -= Close;
+    }
+
+    void Open(string title, Type type, Dictionary<string, object> parameters, DialogOptions options)
+    {
+        // do nothing
+    }
+
+    void Close(dynamic result)
+    {
+        if (result == null) return;
+        // Parse tuple from result
+        Tuple<bool, Charity> resultTuple = result;
+        var status = resultTuple.Item1;
+        var charity = resultTuple.Item2;
+
+        // Add charity to database, if submitted
+        if (status)
+        {
+            CharityService.AddCharityToDataBase(charity);
+            charity.Added = DateTime.Now;
+            _charities.Add(charity);
+        }
+    }
+
+    public async Task OpenDialog()
+    {
+        await _dialogService.OpenAsync<Modal>
+        (
+        "Enter a new charity",
+        new Dictionary<string, object>(),
+        new DialogOptions { Width = "700px", Height = "530px" }
+        );
+    }
+}
