@@ -1,3 +1,18 @@
+<MudThemeProvider Theme="CustomMudBlazorTheme"/>
+@code
+{
+    MudTheme CustomMudBlazorTheme = new MudTheme()
+    {
+        Palette = new Palette()
+        {
+            Primary = Colors.Red.Darken1,
+            Secondary = Colors.Shades.White
+        }
+    };
+}
+<MudDialogProvider/>
+<MudSnackbarProvider/>
+
 <Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true">
         <Found Context="routeData">
             <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />

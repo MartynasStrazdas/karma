@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Radzen;
+using MudBlazor.Services;
 
 namespace karma
 {
@@ -32,7 +32,7 @@ namespace karma
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<CharityService>();
-            services.AddScoped<DialogService>();
+            services.AddMudServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,7 +42,7 @@ namespace karma
             {
                 app.UseDeveloperExceptionPage();
                 DBConnectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
-                if(DBConnectionString == null)
+                if (DBConnectionString == null)
                 {
                     DBConnectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING", EnvironmentVariableTarget.Machine);
                 }
