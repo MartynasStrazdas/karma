@@ -1,9 +1,19 @@
 ﻿@page "/charities"
 @using karma.Data
-@inject DialogService _dialogService
-@implements IDisposable
+@inject IDialogService _dialogService
+
+<link rel="stylesheet" href="@(nameof(karma)).styles.css" />
+
+<div class="fab">
+    <MudFab
+        Color="Color.Primary"
+        Icon="@Icons.Material.Filled.Add"
+        Label="Add charity"
+        @onclick="OpenDialog" />
+</div>
 
 <div class="charities-place">
+
     <div class="container">
         @if (_charities == null)
         {
@@ -27,7 +37,9 @@
     </div>
 </div>
 
-@code {
+@code
+{
+    // Load charities
     private List<Charity> _charities;
 
     protected override async Task OnInitializedAsync()
@@ -35,48 +47,18 @@
         _charities = await CharityService.GetCharitiesAsync();
     }
 
-
-    protected override void OnInitialized()
+    // Define dialog
+    async Task OpenDialog()
     {
-        _dialogService.OnOpen += Open;
-        _dialogService.OnClose += Close;
-    }
-
-    public void Dispose()
-    {
-        _dialogService.OnOpen -= Open;
-        _dialogService.OnClose -= Close;
-    }
-
-    void Open(string title, Type type, Dictionary<string, object> parameters, DialogOptions options)
-    {
-        // do nothing
-    }
-
-    void Close(dynamic result)
-    {
-        if (result == null) return;
-        // Parse tuple from result
-        Tuple<bool, Charity> resultTuple = result;
-        var status = resultTuple.Item1;
-        var charity = resultTuple.Item2;
-
-        // Add charity to database, if submitted
-        if (status)
+        var dialog = _dialogService.Show<DialogAddNewCharity>("Add charity");
+        var result = await dialog.Result;
+        
+        if (!result.Cancelled)
         {
-            CharityService.AddCharityToDataBase(charity);
+            Charity charity = (Charity) result.Data;
             charity.Added = DateTime.Now;
+            CharityService.AddCharityToDataBase(charity);
             _charities.Add(charity);
         }
-    }
-
-    public async Task OpenDialog()
-    {
-        await _dialogService.OpenAsync<Modal>
-        (
-        "Enter a new charity",
-        new Dictionary<string, object>(),
-        new DialogOptions { Width = "700px", Height = "530px" }
-        );
     }
 }

@@ -1,0 +1,58 @@
+@using karma.Data
+@inject ISnackbar Snackbar
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            New charity
+        </MudText>
+    </TitleContent>
+
+    <DialogContent>
+        <MudTextField @bind-Value="@_name" Label="Name" />
+        <MudTextField @bind-Value="@_description" Label="Description" />
+        <MudTextField @bind-Value="@_website" Label="Website" />
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton
+            Variant="Variant.Outlined"
+            StartIcon="@Icons.Material.Filled.Save"
+            Color="Color.Success"
+            Size="Size.Medium"
+            @onclick="@AddCharity">
+        Save
+        </MudButton>
+
+        <MudButton Variant="Variant.Outlined"
+               StartIcon="@Icons.Material.Filled.Cancel"
+               Color="Color.Error"
+               Size="Size.Medium"
+               @onclick="@Cancel">
+        Cancel
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code
+{
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    
+    private string _name { get; set; }
+    private string _description { get; set; }
+    private string _website { get; set; }
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    private void AddCharity()
+    {
+        Charity charity = new Charity(_name, _description, _website);
+        //Console.WriteLine(charity.Name);
+
+        Snackbar.Add("Charity added!", Severity.Success);
+        MudDialog.Close(DialogResult.Ok(charity));
+    }
+}
