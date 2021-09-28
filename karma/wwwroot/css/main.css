@@ -5,6 +5,12 @@
 .content.px-4{
     margin: 0;
 }
+h1{
+    margin: 1em 0 !important;
+}
+h2 {
+    margin: 1em 0 !important;
+}
 .themed-button {
   text-decoration: none;
   color: var(--primary-color);
@@ -390,7 +396,7 @@ nav li a:hover {
     display: grid;
     -ms-grid-columns: 180px auto;
         grid-template-columns: 180px auto;
-    -webkit-box-pack: unset;
+    -webkit-box-pack: unset
         -ms-flex-pack: unset;
             justify-content: unset;
   }
@@ -460,7 +466,7 @@ nav li a:hover {
     text-align: left;
   }
   .announcements-place ul li img {
-    margin: -1em 1em;
+    margin: -1em 1em !important;
     float: left;
     width: 10em;
     height: 10em;
