@@ -42,6 +42,10 @@ namespace karma
             {
                 app.UseDeveloperExceptionPage();
                 DBConnectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
+                if(DBConnectionString == null)
+                {
+                    DBConnectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING", EnvironmentVariableTarget.Machine);
+                }
             }
             else
             {
