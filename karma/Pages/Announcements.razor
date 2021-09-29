@@ -1,27 +1,36 @@
 ﻿@page "/announcements"
+@using karma.Data
 
 <div class="announcements-place">
     <div class="container">
-        <ul>
-            <li>
-                <img src="img/save the children.png" alt="Charity photo">
-                <h1 style="margin: 2em;">Searhing volunteers</h1>
-                <p>We are in need of volunteers who can help us to do some stuff. If intrested apply <a href="https://www.savethechildren.net/">here.</a></p>
-            </li>
-            <li>
-                <img src="img/save the children.png" alt="Charity photo">
-                <h1>Searhing volunteers</h1>
-                <p>We are in need of volunteers who can help us to do some stuff. If intrested apply <a href="https://www.savethechildren.net/">here.</a></p>
-            </li>
-            <li>
-                <img src="img/save the children.png" alt="Charity photo">
-                <h1>Searhing volunteers</h1>
-                <p>We are in need of volunteers who can help us to do some stuff. If intrested apply <a href="https://www.savethechildren.net/">here.</a></p>
-            </li>
-        </ul>
+        @if (_announcement == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            <ul>
+                @foreach (var announcement in _announcement)
+                {
+                    <li>
+                        <img src="img/save the children.png" alt="Charity logo">
+                        <h2>@announcement.Name</h2>
+                        <p>@announcement.Description</p>
+                    </li>
+                }
+            </ul>
+        }
     </div>
 </div>
 
 
-@code { 
-}
+
+    @code {
+        private List<Announcement> _announcement;
+
+        protected override async Task OnInitializedAsync()
+        {
+            _announcement = await AnnouncementService.GetAnnouncementsAsync();
+        }
+
+    }
