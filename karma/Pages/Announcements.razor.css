@@ -1,15 +1,12 @@
-.app_top
-{
+.app_top {
     display: table-cell;
 }
 
-.app_top img
-{
+.app_top img {
     float: left;
 }
 
-.fab
-{
+.fab {
     position: -webkit-sticky;
     position: sticky;
     top: 0;
