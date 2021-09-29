@@ -45,7 +45,7 @@ namespace karma.Data
 
             return Task.FromResult(charities);
         }
-        
+
         public static void AddCharityToDataBase(Charity charity)
         {
             if (charity != null)
@@ -65,7 +65,7 @@ namespace karma.Data
                         cmd.CommandType = CommandType.Text;
                         cmd.ExecuteNonQuery();
                     }
-                } 
+                }
                 catch (SqlException e)
                 {
                     Console.WriteLine(e.ToString());
@@ -74,8 +74,5 @@ namespace karma.Data
                 System.Diagnostics.Debug.WriteLine(charity.Name + " " + charity.Description + " " + charity.Website);
             }
         }
-
-
-
     }
 }

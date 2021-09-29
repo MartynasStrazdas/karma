@@ -1,16 +1,27 @@
 ﻿@page "/listings"
 @using karma.Data
+@inject IDialogService _dialogService
+
+<link rel="stylesheet" href="@(nameof(karma)).styles.css" />
+
+<div class="fab">
+    <MudFab
+        Color="Color.Primary"
+        Icon="@Icons.Material.Filled.Add"
+        Label="Add listing"
+        @onclick="OpenDialog" />
+</div>
 
 <div class="listings-place">
     <div class="container">
-        @if (_listing == null)
+        @if (_listings == null)
         {
             <p><em>Loading...</em></p>
         }
         else
         {
             <ul>
-                @foreach (var listing in _listing)
+                @foreach (var listing in _listings)
                 {
                     <li>
                         <img src="img/save the children.png" alt="Charity logo">
@@ -25,11 +36,25 @@
 </div>
 
 @code {
-    private List<Listing> _listing;
+    private List<Listing> _listings;
 
     protected override async Task OnInitializedAsync()
     {
-        _listing = await ListingService.GetListingsAsync();
+        _listings = await ListingService.GetListingsAsync();
     }
 
+    // Define dialog
+    async Task OpenDialog()
+    {
+        var dialog = _dialogService.Show<DialogAddNewListing>("Add listing");
+        var result = await dialog.Result;
+        
+        if (!result.Cancelled)
+        {
+            Listing listing = (Listing) result.Data;
+            listing.Added = DateTime.Now;
+            ListingService.AddListingToDataBase(listing);
+            _listings.Add(listing);
+        }
+    }
 }

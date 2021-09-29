@@ -16,5 +16,11 @@ namespace karma.Data
             this.Description = Description;
             this.Added = Added;
         }
+
+        public Announcement(string Title, string Description)
+        {
+            this.Title = Title;
+            this.Description = Description;
+        }
     }
 }
