@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace karma.Data
 {
-    public class AnnouncementService
+    public class ListingService
     {
-        public static Task<List<Announcement>> GetAnnouncementsAsync()
+        public static Task<List<Listing>> GetListingsAsync()
         {
-            List<Announcement> announcements = new List<Announcement>();
+            List<Listing> listings = new List<Listing>();
 
             try
             {
                 SqlConnection mysqlconnection = new(Startup.DBConnectionString);
 
                 StringBuilder sb = new();
-                sb.Append("SELECT * from announcements");
+                sb.Append("SELECT * from listings");
                 String mysql = sb.ToString();
 
                 SqlCommand command = new(mysql, mysqlconnection);
@@ -28,7 +28,7 @@ namespace karma.Data
 
                 while (datareader.Read())
                 {
-                    announcements.Add(new Announcement(datareader.GetInt32(0), datareader.GetString(1), datareader.GetString(2), datareader.GetDateTime(3)));
+                    listings.Add(new Listing(datareader.GetInt32(0), datareader.GetString(1), datareader.GetString(2), datareader.GetDateTime(3)));
                 }
             }
             catch (SqlException e)
@@ -36,23 +36,23 @@ namespace karma.Data
                 Console.WriteLine(e.ToString());
             }
 
-            return Task.FromResult(announcements);
+            return Task.FromResult(listings);
         }
-        public static void AddAnnouncementToDataBase(Announcement announcement)
+        public static void AddListingToDataBase(Listing listing)
         {
-            if (announcement != null)
+            if (listing != null)
             {
                 try
                 {
                     SqlConnection mysqlconnection = new(Startup.DBConnectionString);
                     mysqlconnection.Open();
-                    string sql = "INSERT INTO announcements(title, description, added) VALUES(@param1,@param2,GETDATE())";
+                    string sql = "INSERT INTO listings(title, description, added) VALUES(@param1,@param2,GETDATE())";
 
                     // Prepare the command to be executed on the db
                     using (SqlCommand cmd = new(sql, mysqlconnection))
                     {
-                        cmd.Parameters.Add("@param1", SqlDbType.NVarChar).Value = announcement.Title;
-                        cmd.Parameters.Add("@param2", SqlDbType.NVarChar).Value = announcement.Description;
+                        cmd.Parameters.Add("@param1", SqlDbType.NVarChar).Value = listing.Title;
+                        cmd.Parameters.Add("@param2", SqlDbType.NVarChar).Value = listing.Description;
                         cmd.CommandType = CommandType.Text;
                         cmd.ExecuteNonQuery();
                     }
@@ -62,8 +62,9 @@ namespace karma.Data
                     Console.WriteLine(e.ToString());
                 }
 
-                System.Diagnostics.Debug.WriteLine(announcement.Title + " " + announcement.Description);
+                System.Diagnostics.Debug.WriteLine(listing.Title + " " + listing.Description);
             }
         }
     }
 }
+

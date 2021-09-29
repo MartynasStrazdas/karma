@@ -1,48 +1,34 @@
 ﻿@page "/listings"
+@using karma.Data
 
 <div class="listings-place">
     <div class="container">
-        <ul>
-            <li>
-                <img src="img/clothes.jpg" alt="pile of clothes">
-                <h2>Giving away lots of clothes.</h2>
-                <p>Giving away a pile of clothes to someone that really needs it.</p>
-                <a href="#">Apply</a>
-            </li>
-            <li>
-                <img src="img/clothes.jpg" alt="pile of clothes">
-                <h2>Giving away lots of clothes.</h2>
-                <p>Giving away a pile of clothes to someone that really needs it.</p>
-                <a href="#">Apply</a>
-            </li>
-            <li>
-                <img src="img/clothes.jpg" alt="pile of clothes">
-                <h2>Giving away lots of clothes.</h2>
-                <p>Giving away a pile of clothes to someone that really needs it.</p>
-                <a href="#">Apply</a>
-            </li>
-            <li>
-                <img src="img/clothes.jpg" alt="pile of clothes">
-                <h2>Giving away lots of clothes.</h2>
-                <p>Giving away a pile of clothes to someone that really needs it.</p>
-                <a href="#">Apply</a>
-            </li>
-            <li>
-                <img src="img/clothes.jpg" alt="pile of clothes">
-                <h2>Giving away lots of clothes.</h2>
-                <p>Giving away a pile of clothes to someone that really needs it.</p>
-                <a href="#">Apply</a>
-            </li>
-            <li>
-                <img src="img/clothes.jpg" alt="pile of clothes">
-                <h2>Giving away lots of clothes.</h2>
-                <p>Giving away a pile of clothes to someone that really needs it.</p>
-                <a href="#">Apply</a>
-            </li>
-        </ul>
+        @if (_listing == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            <ul>
+                @foreach (var listing in _listing)
+                {
+                    <li>
+                        <img src="img/save the children.png" alt="Charity logo">
+                        <h2>@listing.Title</h2>
+                        <p>@listing.Description</p>
+                    </li>
+                }
+            </ul>
+        }
     </div>
 </div>
 
 @code {
+    private List<Listing> _listing;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _listing = await ListingService.GetListingsAsync();
+    }
 
 }
