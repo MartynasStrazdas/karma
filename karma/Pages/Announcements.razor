@@ -1,16 +1,27 @@
 ﻿@page "/announcements"
 @using karma.Data
+@inject IDialogService _dialogService
+
+<link rel="stylesheet" href="@(nameof(karma)).styles.css" />
+
+<div class="fab">
+    <MudFab
+        Color="Color.Primary"
+        Icon="@Icons.Material.Filled.Add"
+        Label="Add announcement"
+        @onclick="OpenDialog" />
+</div>
 
 <div class="announcements-place">
     <div class="container">
-        @if (_announcement == null)
+        @if (_announcements == null)
         {
             <p><em>Loading...</em></p>
         }
         else
         {
             <ul>
-                @foreach (var announcement in _announcement)
+                @foreach (var announcement in _announcements)
                 {
                     <li>
                         <img src="img/save the children.png" alt="Charity logo">
@@ -25,12 +36,27 @@
 
 
 
-    @code {
-        private List<Announcement> _announcement;
+@code
+{
+    private List<Announcement> _announcements;
 
-        protected override async Task OnInitializedAsync()
-        {
-            _announcement = await AnnouncementService.GetAnnouncementsAsync();
-        }
-
+    protected override async Task OnInitializedAsync()
+    {
+        _announcements = await AnnouncementService.GetAnnouncementsAsync();
     }
+
+    // Define dialog
+    async Task OpenDialog()
+    {
+        var dialog = _dialogService.Show<DialogAddNewAnnouncement>("Add announcement");
+        var result = await dialog.Result;
+        
+        if (!result.Cancelled)
+        {
+            Announcement announcement = (Announcement) result.Data;
+            announcement.Added = DateTime.Now;
+            AnnouncementService.AddAnnouncementToDataBase(announcement);
+            _announcements.Add(announcement);
+        }
+    }
+}

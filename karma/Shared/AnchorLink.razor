@@ -1,5 +1,7 @@
-﻿
-@code {
+﻿<a @attributes="this.Attributes" @onclick="this.AnchorOnClickAsync" @onclick:preventDefault="@this.preventDefault">@this.ChildContent</a>
+
+@code
+{
 
     public AnchorLink()
     {
@@ -62,5 +64,3 @@
     }
 
 }
-
-<a @attributes="this.Attributes" @onclick="this.AnchorOnClickAsync" @onclick:preventDefault="@this.preventDefault">@this.ChildContent</a>

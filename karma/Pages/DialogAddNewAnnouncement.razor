@@ -4,14 +4,13 @@
 <MudDialog>
     <TitleContent>
         <MudText Typo="Typo.h6">
-            New charity
+            New listing
         </MudText>
     </TitleContent>
 
     <DialogContent>
-        <MudTextField @bind-Value="@_name" Label="Name" />
+        <MudTextField @bind-Value="@_title" Label="Title" />
         <MudTextField @bind-Value="@_description" T="string" Label="Description" Variant="Variant.Text"  Lines="5" />
-        <MudTextField @bind-Value="@_website" Label="Website" />
     </DialogContent>
 
     <DialogActions>
@@ -20,7 +19,7 @@
             StartIcon="@Icons.Material.Filled.Save"
             Color="Color.Success"
             Size="Size.Medium"
-            @onclick="@AddCharity">
+            @onclick="@AddAnnouncement">
         Save
         </MudButton>
 
@@ -38,20 +37,19 @@
 {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     
-    private string _name { get; set; }
+    private string _title { get; set; }
     private string _description { get; set; }
-    private string _website { get; set; }
 
     private void Cancel()
     {
         MudDialog.Cancel();
     }
 
-    private void AddCharity()
+    private void AddAnnouncement()
     {
-        Charity charity = new Charity(_name, _description, _website);
+        Announcement announcement = new Announcement(_title, _description);
 
-        Snackbar.Add("Charity added!", Severity.Success);
-        MudDialog.Close(DialogResult.Ok(charity));
+        Snackbar.Add("Announcement added!", Severity.Success);
+        MudDialog.Close(DialogResult.Ok(announcement));
     }
 }

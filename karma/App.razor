@@ -1,15 +1,4 @@
 <MudThemeProvider Theme="CustomMudBlazorTheme"/>
-@code
-{
-    MudTheme CustomMudBlazorTheme = new MudTheme()
-    {
-        Palette = new Palette()
-        {
-            Primary = Colors.Red.Darken1,
-            Secondary = Colors.Shades.White
-        }
-    };
-}
 <MudDialogProvider/>
 <MudSnackbarProvider/>
 
@@ -23,3 +12,15 @@
             </LayoutView>
         </NotFound>
 </Router>
+
+@code
+{
+    MudTheme CustomMudBlazorTheme = new MudTheme()
+    {
+        Palette = new Palette()
+        {
+            Primary = Colors.Red.Darken1,
+            Secondary = Colors.Shades.White
+        }
+    };
+}
