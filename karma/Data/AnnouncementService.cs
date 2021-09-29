@@ -38,7 +38,7 @@ namespace karma.Data
 
             return Task.FromResult(announcements);
         }
-        public static void AddCharityToDataBase(Announcement announcement)
+        public static void AddAnnouncementToDataBase(Announcement announcement)
         {
             if (announcement != null)
             {
