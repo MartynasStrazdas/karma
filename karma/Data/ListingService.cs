@@ -19,7 +19,7 @@ namespace karma.Data
                 SqlConnection mysqlconnection = new(Startup.DBConnectionString);
 
                 StringBuilder sb = new();
-                sb.Append("SELECT * from listings");
+                sb.Append("SELECT * FROM listings ORDER BY added DESC");
                 String mysql = sb.ToString();
 
                 SqlCommand command = new(mysql, mysqlconnection);
