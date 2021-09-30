@@ -57,7 +57,7 @@
             Announcement announcement = (Announcement) result.Data;
             announcement.Added = DateTime.Now;
             AnnouncementService.AddAnnouncementToDataBase(announcement);
-            _announcements.Add(announcement);
+            _announcements.Insert(0, announcement);
         }
     }
 }
