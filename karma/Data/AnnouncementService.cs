@@ -28,7 +28,7 @@ namespace karma.Data
 
                 while (datareader.Read())
                 {
-                    announcements.Add(new Announcement(datareader.GetInt32(0), datareader.GetString(1), datareader.GetString(2), datareader.GetDateTime(3)));
+                    announcements.Insert(0, new Announcement(datareader.GetInt32(0), datareader.GetString(1), datareader.GetString(2), datareader.GetDateTime(3)));
                 }
             }
             catch (SqlException e)

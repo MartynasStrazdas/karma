@@ -55,7 +55,7 @@
             Listing listing = (Listing) result.Data;
             listing.Added = DateTime.Now;
             ListingService.AddListingToDataBase(listing);
-            _listings.Add(listing);
+            _listings.Insert(0, listing);
         }
     }
 }

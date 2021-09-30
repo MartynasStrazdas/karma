@@ -59,7 +59,7 @@
             Charity charity = (Charity) result.Data;
             charity.Added = DateTime.Now;
             CharityService.AddCharityToDataBase(charity);
-            _charities.Add(charity);
+            _charities.Insert(0, charity);
         }
     }
 }

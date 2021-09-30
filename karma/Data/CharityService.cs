@@ -30,11 +30,11 @@ namespace karma.Data
                 {
                     if (datareader.IsDBNull(4)) // Website can be null
                     {
-                        charities.Add(new Charity(datareader.GetInt32(0), datareader.GetString(1), datareader.GetString(2), datareader.GetDateTime(3), ""));
+                        charities.Insert(0, new Charity(datareader.GetInt32(0), datareader.GetString(1), datareader.GetString(2), datareader.GetDateTime(3), ""));
                     }
                     else
                     {
-                        charities.Add(new Charity(datareader.GetInt32(0), datareader.GetString(1), datareader.GetString(2), datareader.GetDateTime(3), datareader.GetString(4)));
+                        charities.Insert(0, new Charity(datareader.GetInt32(0), datareader.GetString(1), datareader.GetString(2), datareader.GetDateTime(3), datareader.GetString(4)));
                     }
                 }
             }
