@@ -15,3 +15,8 @@ Made with C# and Blazor
 Built with Visual Studio 2019 Community. For local development, these environment variables are required to be set:
 
 * `DB_CONNECTION_STRING`: Azure SQL database connection string (e.g., `Data Source=tcp:database-name.database.windows.net,1433;Initial Catalog=database-username;User Id=database-username@database-username;Password=database-password`)
+
+# Coding conventions
+- [C# conventions by Microsoft](https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions)
+   - [dotnet-format](https://github.com/dotnet/format)
+- [HTML/CSS guidelines by Google](https://google.github.io/styleguide/htmlcssguide.html)
