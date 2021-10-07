@@ -3,7 +3,7 @@
         <a class="logo-desktop" href="#">Cha<span>rie</span></a>
         <a class="logo-mobile" href="#"><img src="/img/favicon.png" alt="Charie logo"></a>
 
-        <img  id="mobile-cta" class="mobile-menu" src="img/menu.svg" @onclick="ExpandMenu" alt="Expand navigation menu">
+        <img id="mobile-cta" class="mobile-menu" src="img/menu.svg" @onclick="ExpandMenu" alt="Expand navigation menu">
 
         <nav class="@MenuButtonClass">
             <img id="mobile-exit" class="mobile-exit" src="img/exit.svg" @onclick="CloseMenu" alt="Exit navigation">
@@ -15,7 +15,7 @@
             </ul>
 
             <ul class="secondary-nav">
-                <li><a href="/"><AnchorLink href="#contact">Contact</AnchorLink></a></li>
+                <li><AnchorLink href="/contact">Contact</AnchorLink></li>
                 <li class="login-btn"><a href="#">Login</a></li>
             </ul>
         </nav>
@@ -34,4 +34,5 @@
     {
         MenuButtonClass = "nav-not-pressed"; //Changes <nav> class to close mobile menu.
     }
+    //
 }
