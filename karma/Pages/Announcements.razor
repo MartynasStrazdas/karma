@@ -1,5 +1,4 @@
 ﻿@page "/announcements"
-@using karma.Data
 @using karma.Components
 @inject IDialogService _dialogService
 
@@ -35,15 +34,15 @@
     </div>
 </div>
 
-
-
-@code
-{
+@code {
     private List<Announcement> _announcements;
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        _announcements = await AnnouncementService.GetAnnouncementsAsync();
+        using (var db = new dbkarmaContext())
+        {
+            _announcements = db.Announcements.OrderByDescending(x => x.Added).ToList();
+        }
     }
 
     // Define dialog
@@ -56,7 +55,13 @@
         {
             Announcement announcement = (Announcement) result.Data;
             announcement.Added = DateTime.Now;
-            AnnouncementService.AddAnnouncementToDataBase(announcement);
+
+            using (var db = new dbkarmaContext())
+            {
+                db.Add(announcement);
+                db.SaveChanges();
+            }
+
             _announcements.Insert(0, announcement);
         }
     }

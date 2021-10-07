@@ -1,5 +1,4 @@
 ﻿@page "/listings"
-@using karma.Data
 @using karma.Components
 @inject IDialogService _dialogService
 
@@ -39,9 +38,12 @@
 @code {
     private List<Listing> _listings;
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        _listings = await ListingService.GetListingsAsync();
+        using (var db = new dbkarmaContext())
+        {
+            _listings = db.Listings.OrderByDescending(x => x.Added).ToList();
+        }
     }
 
     // Define dialog
@@ -54,7 +56,13 @@
         {
             Listing listing = (Listing) result.Data;
             listing.Added = DateTime.Now;
-            ListingService.AddListingToDataBase(listing);
+
+            using (var db = new dbkarmaContext())
+            {
+                db.Add(listing);
+                db.SaveChanges();
+            }
+
             _listings.Insert(0, listing);
         }
     }

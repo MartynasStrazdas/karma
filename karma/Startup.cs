@@ -1,4 +1,3 @@
-using karma.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MudBlazor.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace karma
 {
@@ -31,7 +31,6 @@ namespace karma
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<CharityService>();
             services.AddMudServices();
         }
 
