@@ -1,4 +1,3 @@
-@using karma.Data
 @inject ISnackbar Snackbar
 
 <MudDialog>
@@ -47,7 +46,7 @@
 
     private void AddAnnouncement()
     {
-        Announcement announcement = new Announcement(_title, _description);
+        Announcement announcement = new Announcement{ Title = _title, Description = _description };
 
         Snackbar.Add("Announcement added!", Severity.Success);
         MudDialog.Close(DialogResult.Ok(announcement));
