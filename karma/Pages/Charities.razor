@@ -1,5 +1,4 @@
 ﻿@page "/charities"
-@using karma.Components
 @inject IDialogService _dialogService
 
 <link rel="stylesheet" href="@(nameof(karma)).styles.css" />
@@ -36,36 +35,3 @@
         }
     </div>
 </div>
-
-@code {
-    private List<Charity> _charities;
-
-    protected override void OnInitialized()
-    {
-        using (var db = new dbkarmaContext())
-        {
-            _charities = db.Charities.OrderByDescending(x => x.Added).ToList();
-        }
-    }
-
-    // Define dialog
-    async Task OpenDialog()
-    {
-        var dialog = _dialogService.Show<DialogAddNewCharity>("Add charity");
-        var result = await dialog.Result;
-        
-        if (!result.Cancelled)
-        {
-            Charity charity = (Charity) result.Data;
-            charity.Added = DateTime.Now;
-
-            using (var db = new dbkarmaContext())
-            {
-                db.Add(charity);
-                db.SaveChanges();
-            }
-
-            _charities.Insert(0, charity);
-        }
-    }
-}
