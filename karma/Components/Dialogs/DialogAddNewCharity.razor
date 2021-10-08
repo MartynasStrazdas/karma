@@ -1,3 +1,4 @@
+@using System.Text.RegularExpressions
 @inject ISnackbar Snackbar
 
 <MudDialog>
@@ -8,9 +9,27 @@
     </TitleContent>
 
     <DialogContent>
-        <MudTextField @bind-Value="@_name" Label="Name" />
-        <MudTextField @bind-Value="@_description" T="string" Label="Description" Variant="Variant.Text"  Lines="5" />
-        <MudTextField @bind-Value="@_website" Label="Website" />
+        <MudTextField
+            @bind-Value="@_name"
+            Label="Name"
+            Required="true"
+            RequiredError="Name is required" />
+
+        <MudTextField
+            @bind-Value="@_description"
+            T="string"
+            Label="Description"
+            Variant="Variant.Text"
+            Lines="5"
+            Required="true"
+            RequiredError="Description is required" />
+
+        <MudTextField
+            @bind-Value="@_website"
+            Label="Website"
+            Required="true"
+            RequiredError="Website is required"
+            Validation="@(new Func<string, string>(ValidateWebsite))" />
     </DialogContent>
 
     <DialogActions>
@@ -19,15 +38,16 @@
             StartIcon="@Icons.Material.Filled.Save"
             Color="Color.Success"
             Size="Size.Medium"
-            @onclick="@AddCharity">
+            @onclick="AddCharity">
         Save
         </MudButton>
 
-        <MudButton Variant="Variant.Outlined"
-               StartIcon="@Icons.Material.Filled.Cancel"
-               Color="Color.Error"
-               Size="Size.Medium"
-               @onclick="@Cancel">
+        <MudButton
+            Variant="Variant.Outlined"
+            StartIcon="@Icons.Material.Filled.Cancel"
+            Color="Color.Error"
+            Size="Size.Medium"
+            @onclick="Cancel">
         Cancel
         </MudButton>
     </DialogActions>
@@ -41,6 +61,15 @@
     private string _description { get; set; }
     private string _website { get; set; }
 
+    private readonly string websiteCheckPattern = @"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$";
+
+    private string ValidateWebsite(string arg)
+    {
+        if (Regex.IsMatch(arg, websiteCheckPattern))
+            return null;
+        return "Website is not valid";
+    }
+
     private void Cancel()
     {
         MudDialog.Cancel();
@@ -48,9 +77,14 @@
 
     private void AddCharity()
     {
-        Charity charity = new Charity{ Name = _name, Description = _description, Website = _website };
+        if (!String.IsNullOrWhiteSpace(_name) &&
+            !String.IsNullOrWhiteSpace(_description) &&
+            ValidateWebsite(_website) == null)
+        {
+            Charity charity = new Charity{ Name = _name, Description = _description, Website = _website };
 
-        Snackbar.Add("Charity added!", Severity.Success);
-        MudDialog.Close(DialogResult.Ok(charity));
+            Snackbar.Add("Charity added!", Severity.Success);
+            MudDialog.Close(DialogResult.Ok(charity));
+        }
     }
 }
