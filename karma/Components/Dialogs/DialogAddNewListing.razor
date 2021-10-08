@@ -8,8 +8,18 @@
     </TitleContent>
 
     <DialogContent>
-        <MudTextField @bind-Value="@_title" Label="Title" />
-        <MudTextField @bind-Value="@_description" T="string" Label="Description" Variant="Variant.Text"  Lines="5" />
+        <MudTextField
+            @bind-Value="@_title"
+            Label="Title"
+            Required="true"
+            RequiredError="Title is required" />
+        <MudTextField
+            @bind-Value="@_description"
+            T="string" Label="Description"
+            Variant="Variant.Text"
+            Lines="5"
+            Required="true"
+            RequiredError="Description is required"/>
     </DialogContent>
 
     <DialogActions>
@@ -18,7 +28,7 @@
             StartIcon="@Icons.Material.Filled.Save"
             Color="Color.Success"
             Size="Size.Medium"
-            @onclick="@AddListing">
+            @onclick="AddListing">
         Save
         </MudButton>
 
@@ -26,7 +36,7 @@
                StartIcon="@Icons.Material.Filled.Cancel"
                Color="Color.Error"
                Size="Size.Medium"
-               @onclick="@Cancel">
+               @onclick="Cancel">
         Cancel
         </MudButton>
     </DialogActions>
@@ -46,9 +56,13 @@
 
     private void AddListing()
     {
-        Listing listing = new Listing{ Title = _title, Description = _description };
+        if (!String.IsNullOrWhiteSpace(_title) &&
+            !String.IsNullOrWhiteSpace(_description))
+        {
+            Listing listing = new Listing{ Title = _title, Description = _description };
 
-        Snackbar.Add("Listing added!", Severity.Success);
-        MudDialog.Close(DialogResult.Ok(listing));
+            Snackbar.Add("Listing added!", Severity.Success);
+            MudDialog.Close(DialogResult.Ok(listing));
+        }
     }
 }

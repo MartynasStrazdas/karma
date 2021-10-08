@@ -1,3 +1,4 @@
+@using System
 @inject ISnackbar Snackbar
 
 <MudDialog>
@@ -8,8 +9,20 @@
     </TitleContent>
 
     <DialogContent>
-        <MudTextField @bind-Value="@_title" Label="Title" />
-        <MudTextField @bind-Value="@_description" T="string" Label="Description" Variant="Variant.Text"  Lines="5" />
+        <MudTextField
+            @bind-Value="@_title"
+            Label="Title"
+            Required="true"
+            RequiredError="Title is required" />
+        
+        <MudTextField
+            @bind-Value="@_description"
+            T="string"
+            Label="Description"
+            Variant="Variant.Text"
+            Lines="5"
+            Required="true"
+            RequiredError="Description is required"/>
     </DialogContent>
 
     <DialogActions>
@@ -18,15 +31,16 @@
             StartIcon="@Icons.Material.Filled.Save"
             Color="Color.Success"
             Size="Size.Medium"
-            @onclick="@AddAnnouncement">
+            @onclick="AddAnnouncement">
         Save
         </MudButton>
 
-        <MudButton Variant="Variant.Outlined"
-               StartIcon="@Icons.Material.Filled.Cancel"
-               Color="Color.Error"
-               Size="Size.Medium"
-               @onclick="@Cancel">
+        <MudButton
+            Variant="Variant.Outlined"
+            StartIcon="@Icons.Material.Filled.Cancel"
+            Color="Color.Error"
+            Size="Size.Medium"
+            @onclick="Cancel">
         Cancel
         </MudButton>
     </DialogActions>
@@ -46,9 +60,12 @@
 
     private void AddAnnouncement()
     {
-        Announcement announcement = new Announcement{ Title = _title, Description = _description };
-
-        Snackbar.Add("Announcement added!", Severity.Success);
-        MudDialog.Close(DialogResult.Ok(announcement));
+        if (!String.IsNullOrWhiteSpace(_title) &&
+            !String.IsNullOrWhiteSpace(_description))
+        {
+            Announcement announcement = new Announcement{ Title = _title, Description = _description };
+            Snackbar.Add("Announcement added!", Severity.Success);
+            MudDialog.Close(DialogResult.Ok(announcement));
+        }
     }
 }
