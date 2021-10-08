@@ -81,6 +81,10 @@
             !String.IsNullOrWhiteSpace(_description) &&
             ValidateWebsite(_website) == null)
         {
+            if (!_website.StartsWith("http"))
+            {
+                _website = "http://" + _website;
+            }
             Charity charity = new Charity{ Name = _name, Description = _description, Website = _website };
 
             Snackbar.Add("Charity added!", Severity.Success);
