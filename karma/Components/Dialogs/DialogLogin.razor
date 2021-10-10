@@ -1,0 +1,62 @@
+﻿@inject ISnackbar Snackbar
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            Login
+        </MudText>
+    </TitleContent>
+
+    <DialogContent>
+        <MudTextField @bind-Value="@_username"
+                      Label="Username"
+                      Required="true"
+                      RequiredError="Username is required" />
+        <MudTextField @bind-Value="@_password"
+                      InputType="InputType.Password"
+                      T="string" Label="Password"
+                      Variant="Variant.Text"
+                      Required="true"
+                      RequiredError="Password is required" />
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton Variant="Variant.Outlined"
+                   StartIcon="@Icons.Material.Filled.Save"
+                   Color="Color.Success"
+                   Size="Size.Medium"
+                   @onclick="Login">
+            Login
+        </MudButton>
+
+        <MudButton Variant="Variant.Outlined"
+                   StartIcon="@Icons.Material.Filled.Cancel"
+                   Color="Color.Error"
+                   Size="Size.Medium"
+                   @onclick="Cancel">
+            Cancel
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code
+{
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    private string _username { get; set; }
+    private string _password { get; set; }
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    private void Login()
+    {
+        if (!String.IsNullOrWhiteSpace(_username) &&
+            !String.IsNullOrWhiteSpace(_password))
+        {
+            MudDialog.Close();
+        }
+    }
+}

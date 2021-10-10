@@ -1,4 +1,8 @@
-﻿<div class="my-navbar">
+﻿@inject IDialogService _dialogService
+@using karma.Components.Dialogs;
+
+
+<div class="my-navbar">
     <div class="container">
         <a class="logo-desktop" href="#">Cha<span>rie</span></a>
         <a class="logo-mobile" href="#"><img src="/img/favicon.png" alt="Charie logo"></a>
@@ -16,7 +20,7 @@
 
             <ul class="secondary-nav">
                 <li class="login-btn"><a href="/contact">Contact</a></li>
-                <li class="login-btn"><a href="#">Login</a></li>
+                <MudButton class="login-btn" @onclick="OpenDialog">Login</MudButton>
             </ul>
         </nav>
     </div>
@@ -34,5 +38,14 @@
     {
         MenuButtonClass = "nav-not-pressed"; //Changes <nav> class to close mobile menu.
     }
-    //
+    private async Task OpenDialog()
+    {
+        var dialog = _dialogService.Show<DialogLogin>("Login");
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+
+        }
+    }
 }
