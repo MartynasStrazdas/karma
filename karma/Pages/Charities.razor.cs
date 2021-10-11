@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using karma.Components.Dialogs;
+using MudBlazor;
 
 namespace karma.Pages
 {
@@ -20,7 +21,8 @@ namespace karma.Pages
 
         async Task OpenDialog()
         {
-            var dialog = _dialogService.Show<DialogAddNewCharity>("Add charity");
+            DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true };
+            var dialog = _dialogService.Show<DialogAddNewCharity>("Add charity", options);
             var result = await dialog.Result;
             
             if (!result.Cancelled)
