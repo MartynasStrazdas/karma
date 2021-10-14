@@ -11,5 +11,7 @@ namespace karma
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime Added { get; set; }
+        public DateTime ValidUntil { get; set; }
+        public byte[] Img { get; set; }
     }
 }

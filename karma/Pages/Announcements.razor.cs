@@ -28,8 +28,9 @@ namespace karma.Pages
 
             if (!result.Cancelled)
             {
-                Announcement announcement = (Announcement)result.Data;
+                Announcement announcement = (Announcement) result.Data;
                 announcement.Added = DateTime.Now;
+                announcement.ValidUntil = DateTime.Now;
 
                 using (var db = new dbkarmaContext())
                 {
