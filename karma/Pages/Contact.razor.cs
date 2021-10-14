@@ -10,7 +10,7 @@ namespace karma.Pages
         private void sendEmail()
         {
             MailMessage mail = new MailMessage("CharieOrganization@gmail.com", "CharieOrganization@gmail.com", _subject, _description);
-            NetworkCredential netCred = new NetworkCredential("CharieOrganization@gmail.com", "Asdasdasd789");
+            NetworkCredential netCred = new NetworkCredential("CharieOrganization@gmail.com", karma.GitIgnored.EmailPasswordcs.GetEmailPassword());
             SmtpClient smtpobj = new SmtpClient("smtp.gmail.com", 587);
             smtpobj.EnableSsl = true;
             smtpobj.Credentials = netCred;
