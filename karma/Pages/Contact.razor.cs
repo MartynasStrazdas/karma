@@ -9,7 +9,6 @@ namespace karma.Pages
         
         private void sendEmail()
         {
-            DotNetEnv.Env.Load();
             MailMessage mail = new MailMessage("CharieOrganization@gmail.com", "CharieOrganization@gmail.com", _subject, _description);
             NetworkCredential netCred = new NetworkCredential("CharieOrganization@gmail.com", DotNetEnv.Env.GetString("EMAIL_PASSWORD"));
             SmtpClient smtpobj = new SmtpClient("smtp.gmail.com", 587);
