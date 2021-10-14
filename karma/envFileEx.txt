@@ -1,5 +1,0 @@
-﻿File name .env
-in the file there should be:
-
-EMAIL_PASSWORD='email password'
-DB_CONNECTION_STRING='connection string'
