@@ -1,4 +1,5 @@
 @using System
+@using System.IO
 @inject ISnackbar Snackbar
 
 <MudDialog>
@@ -43,6 +44,20 @@
             @onclick="Cancel">
         Cancel
         </MudButton>
+
+        <InputFile
+            id="fileInput"
+            OnChange="UploadImage"
+            hidden multiple accept=".jpg, .jpeg, .png" />
+
+       <MudButton
+            HtmlTag="label"
+            Variant="Variant.Filled"
+            Color="Color.Primary"
+            StartIcon="@Icons.Filled.CloudUpload"
+            for="fileInput">
+        Upload your images
+        </MudButton>
     </DialogActions>
 </MudDialog>
 
@@ -52,6 +67,7 @@
     
     private string _title { get; set; }
     private string _description { get; set; }
+    private byte[] _byteArray { get; set; }
 
     private void Cancel()
     {
@@ -61,11 +77,35 @@
     private void AddAnnouncement()
     {
         if (!String.IsNullOrWhiteSpace(_title) &&
-            !String.IsNullOrWhiteSpace(_description))
+            !String.IsNullOrWhiteSpace(_description) &&
+            _byteArray != null)
         {
-            Announcement announcement = new Announcement{ Title = _title, Description = _description };
+            Announcement announcement = new Announcement{ Title = _title, Description = _description, Img = _byteArray};
+
             Snackbar.Add("Announcement added!", Severity.Success);
             MudDialog.Close(DialogResult.Ok(announcement));
+        }
+    }
+
+    private async Task UploadImage(InputFileChangeEventArgs e)
+    {
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopCenter;
+        MemoryStream ms = new MemoryStream();
+        var fileExtension = e.File.Name.Split(".").Last();
+        if (e.File.Size > 1000000)
+        {
+            Snackbar.Add($"File is too large (max: 1 MB)", Severity.Error);
+        }
+        else if (fileExtension != "jpg" &&
+                 fileExtension != "jpeg" &&
+                 fileExtension != "png")
+        {
+            Snackbar.Add($"{e.File.Name.Split(".").Last()} file is not allowed (allowed: jpg, jpeg, png)", Severity.Error);
+        }
+        else
+        {
+            await e.File.OpenReadStream().CopyToAsync(ms);
+            _byteArray = ms.ToArray();
         }
     }
 }
