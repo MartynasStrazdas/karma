@@ -15,6 +15,8 @@ namespace karma.Pages
         {
             using (var db = new dbkarmaContext())
             {
+                // REQUIREMENT 1.4
+                // REQUIREMENT 1.10
                 _charities = db.Charities.OrderByDescending(x => x.Added).ToList();
             }
         }

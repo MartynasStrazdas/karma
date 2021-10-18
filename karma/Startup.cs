@@ -40,6 +40,7 @@ namespace karma
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                // REQUIREMENT 1.5
                 DotNetEnv.Env.Load();
                 DBConnectionString = DotNetEnv.Env.GetString("DB_CONNECTION_STRING");
             }

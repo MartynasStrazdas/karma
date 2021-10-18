@@ -1,94 +1,104 @@
 @using System.Text.RegularExpressions
+@using FluentValidation
 @inject ISnackbar Snackbar
 
-<MudDialog>
-    <TitleContent>
-        <MudText Typo="Typo.h6">
-            New charity
-        </MudText>
-    </TitleContent>
+<MudForm @ref="@form">
+    <MudDialog>
+        <TitleContent>
+            <MudText Typo="Typo.h6">
+                New charity
+            </MudText>
+        </TitleContent>
 
-    <DialogContent>
-        <MudTextField
-            @bind-Value="@_name"
-            Label="Name"
-            Required="true"
-            RequiredError="Name is required" />
+        <DialogContent>
+            <MudTextField @bind-Value="@_name" Label="Name" Required="true" RequiredError="Name is required" />
 
-        <MudTextField
-            @bind-Value="@_description"
-            T="string"
-            Label="Description"
-            Variant="Variant.Text"
-            Lines="15"
-            Required="true"
-            RequiredError="Description is required" />
+            <MudTextField @bind-Value="@_description" T="string" Label="Description" Variant="Variant.Text" Lines="15"
+                Required="true" RequiredError="Description is required" />
 
-        <MudTextField
-            @bind-Value="@_website"
-            Label="Website"
-            Required="true"
-            RequiredError="Website is required"
-            Validation="@(new Func<string, string>(ValidateWebsite))" />
-    </DialogContent>
+            <MudTextField @bind-Value="@_website" Label="Website" Required="true" RequiredError="Website is required"
+                Validation="@urlValidator.Validation" />
+        </DialogContent>
 
-    <DialogActions>
-        <MudButton
-            Variant="Variant.Outlined"
-            StartIcon="@Icons.Material.Filled.Save"
-            Color="Color.Success"
-            Size="Size.Medium"
-            @onclick="AddCharity">
-        Save
-        </MudButton>
+        <DialogActions>
+            <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.Save" Color="Color.Success"
+                Size="Size.Medium" OnClick=@(async () => await Submit())>
+                Save
+            </MudButton>
 
-        <MudButton
-            Variant="Variant.Outlined"
-            StartIcon="@Icons.Material.Filled.Cancel"
-            Color="Color.Error"
-            Size="Size.Medium"
-            @onclick="Cancel">
-        Cancel
-        </MudButton>
-    </DialogActions>
-</MudDialog>
+            <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.Cancel" Color="Color.Error"
+                Size="Size.Medium" @onclick="Cancel">
+                Cancel
+            </MudButton>
+        </DialogActions>
+    </MudDialog>
+</MudForm>
 
 @code
 {
+    MudForm form;
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    
+
     private string _name { get; set; }
     private string _description { get; set; }
     private string _website { get; set; }
 
-    private readonly string websiteCheckPattern = @"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$";
-
-    private string ValidateWebsite(string arg)
-    {
-        if (Regex.IsMatch(arg, websiteCheckPattern))
-            return null;
-        return "Website is not valid";
-    }
+    // REQUIREMENT 1.7
+    private readonly static string urlRegex =
+    @"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$";
 
     private void Cancel()
     {
         MudDialog.Cancel();
     }
 
-    private void AddCharity()
+    // REQUIREMENT 1.3
+    private String PrependHTTP(string baseString, string valueToPrepend = "http", string separator = "://")
     {
-        if (!String.IsNullOrWhiteSpace(_name) &&
-            !String.IsNullOrWhiteSpace(_description) &&
-            ValidateWebsite(_website) == null)
-        {
-            if (!_website.StartsWith("http"))
-            {
-                _website = "http://" + _website;
-            }
-            Charity charity = new Charity{ Name = _name, Description = _description, Website = _website };
+        if (!baseString.StartsWith(valueToPrepend)) {
+            return valueToPrepend + separator + baseString;
+        }
+        return baseString;
+    }
 
-            Snackbar.Add("Charity added!", Severity.Success);
+    private async Task Submit()
+    {
+        await form.Validate();
+
+        if (form.IsValid)
+        {
+            _website = PrependHTTP(baseString: _website);
+            // REQUIREMENT 1.1
+            // REQUIREMENT 1.2
+            Charity charity = new Charity { Name = _name, Description = _description, Website = _website };
+
+            Snackbar.Add("Charity added!", MudBlazor.Severity.Success);
             MudDialog.Close(DialogResult.Ok(charity));
         }
+    }
+
+    FluentValueValidator<string> urlValidator = new FluentValueValidator<string>(x => x
+    .NotEmpty()
+    .Length(1, 100)
+    .Matches(urlRegex));
+
+    // REQUIREMENT 1.6
+    public class FluentValueValidator<T> : AbstractValidator<T>
+    {
+        public FluentValueValidator(Action<IRuleBuilderInitial<T, T>> rule)
+        {
+            rule(RuleFor(x => x));
+        }
+
+        // REQUIREMENT 1.11
+        private IEnumerable<string> ValidateValue(T arg)
+        {
+            var result = Validate(arg);
+            if (result.IsValid)
+                return new string[0];
+            return result.Errors.Select(e => "Invalid URL");
+        }
+
+        public Func<T, IEnumerable<string>> Validation => ValidateValue;
     }
 }
