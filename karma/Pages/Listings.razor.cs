@@ -20,6 +20,7 @@ namespace karma.Pages
         }
 
         // Define dialog
+        //REQUIREMENT 2.8
         async Task OpenDialog()
         {
             DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true };

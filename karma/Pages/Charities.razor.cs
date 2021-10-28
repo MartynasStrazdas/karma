@@ -20,7 +20,7 @@ namespace karma.Pages
                 _charities = db.Charities.OrderByDescending(x => x.Added).ToList();
             }
         }
-
+        //REQUIREMENT 2.8
         async Task OpenDialog()
         {
             DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true };
