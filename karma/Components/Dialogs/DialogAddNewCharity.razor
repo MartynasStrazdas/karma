@@ -96,6 +96,7 @@
             var result = Validate(arg);
             if (result.IsValid)
                 return new string[0];
+            // REQUIREMENT 2.7
             return result.Errors.Select(e => "Invalid URL");
         }
 
