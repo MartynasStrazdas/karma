@@ -9,7 +9,7 @@ namespace karma.User
     {
         private int UserID { get; }
         string Name { get; }
-        string LastName { get; }
+        string Surname { get; }
         string Username { get; }
         string Email { get; }
         bool IsUser { get; }

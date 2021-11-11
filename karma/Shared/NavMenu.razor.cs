@@ -19,9 +19,19 @@ namespace karma.Shared
         {
             MenuButtonClass = "nav-not-pressed"; //Changes <nav> class to close mobile menu.
         }
-        private async Task OpenDialog()
+        private async Task OpenDialogLogin()
         {
             var dialog = _dialogService.Show<DialogLogin>("Login");
+            var result = await dialog.Result;
+
+            if (!result.Cancelled)
+            {
+
+            }
+        }
+        private async Task OpenDialogRegister()
+        {
+            var dialog = _dialogService.Show<DialogRegister>("Register");
             var result = await dialog.Result;
 
             if (!result.Cancelled)
