@@ -15,10 +15,12 @@ namespace karma.Pages
         {
             using (var db = new dbkarmaContext())
             {
+                // REQUIREMENT 1.4
+                // REQUIREMENT 1.10
                 _charities = db.Charities.OrderByDescending(x => x.Added).ToList();
             }
         }
-
+        //REQUIREMENT 2.8
         async Task OpenDialog()
         {
             DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true };

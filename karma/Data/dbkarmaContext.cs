@@ -47,9 +47,17 @@ namespace karma
                     .IsRequired()
                     .HasColumnName("description");
 
+                entity.Property(e => e.Img)
+                    .IsRequired()
+                    .HasColumnName("img");
+
                 entity.Property(e => e.Title)
                     .IsRequired()
                     .HasColumnName("title");
+
+                entity.Property(e => e.ValidUntil)
+                    .HasColumnType("datetime")
+                    .HasColumnName("validUntil");
             });
 
             modelBuilder.Entity<Charity>(entity =>

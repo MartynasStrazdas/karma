@@ -26,9 +26,9 @@
                     <img class="delete-btn" src="img/delete-btn.png">
                     <img class="profile-pic" src="img/save-the-children.png" alt="Charity logo">
                     <h1 class="charity-title">@announcement.Title</h1>
-                    <h3 class="valid-date">Valid until: 2021-11-30</h3>
+                    <h3 class="valid-date">Valid until: @announcement.ValidUntil</h3>
                     <p class="post-text">@announcement.Description</p>
-                    <img class="post-pic" src="img/holding-phone.png" alt="">
+                    <img class="post-pic" src="data:image;base64,@System.Convert.ToBase64String(@announcement.Img)" alt="Announcement image"/>
                     <a class="upvote-btn">Share!</a>
                 </li>
                 }

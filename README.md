@@ -12,9 +12,10 @@ Made with C# and Blazor
 * [Martynas Strazdas](https://github.com/MartynasStrazdas)
 
 # Local development
-Built with Visual Studio 2019 Community. For local development, these environment variables are required to be set:
+Built with Visual Studio 2019 Community. Copy the `.env.sample` file to `.env` and change the variables:
 
-* `DB_CONNECTION_STRING`: Azure SQL database connection string (e.g., `Data Source=tcp:database-name.database.windows.net,1433;Initial Catalog=database-username;User Id=database-username@database-username;Password=database-password`)
+* `EMAIL_PASSWORD`: Charie email password
+* `DB_CONNECTION_STRING`: SQL Server (Azure SQL) connection string
 
 # Coding conventions
 - [C# conventions by Microsoft](https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions)
