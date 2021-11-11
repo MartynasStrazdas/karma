@@ -375,7 +375,16 @@ nav li a:hover {
   -webkit-box-shadow: 1px 1px 25px #b4b4b4;
           box-shadow: 1px 1px 25px #b4b4b4;
 }
+    .listings-place ul li .delete-btn {
+        width: 2.3em;
+        height: 2em;
+        float: right;
+        margin: 1em 2em;
+    }
 
+        .listings-place ul li .delete-btn:hover {
+            cursor: pointer;
+        }
 .listings-place ul li h2 {
   font-size: 1.5em;
   margin: .5em .3em;
@@ -436,6 +445,17 @@ nav li a:hover {
           box-shadow: 1px 1px 25px #b4b4b4;
 }
 
+    .charities-place ul li .delete-btn {
+        width: 2.3em;
+        height: 2em;
+        float: right;
+        margin: 1em 2em;
+    }
+
+        .charities-place ul li .delete-btn:hover {
+            cursor: pointer;
+        }
+
 .charities-place ul li h2 {
   font-size: 1.5em;
   margin: .5em .3em;
@@ -451,6 +471,7 @@ nav li a:hover {
   border-radius: 2em;
   -o-object-fit: cover;
      object-fit: cover;
+  margin-right: -6em;
 }
 
 .charities-place ul li a {

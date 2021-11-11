@@ -41,5 +41,23 @@ namespace karma.Pages
                 _listings.Insert(0, listing);
             }
         }
+        async Task OpenDialogConfirmation(int Id)
+        {
+            DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true };
+            var dialog = _dialogService.Show<DialogConfirmation>("Confirmation", options);
+            var result = await dialog.Result;
+
+
+            if (!result.Cancelled)
+            {
+                var listing = new Listing { Id = Id };
+                using (var db = new dbkarmaContext())
+                {
+                    db.Listings.Attach(listing);
+                    db.Listings.Remove(listing);
+                    db.SaveChanges();
+                }
+            }
+        }
     }
 }

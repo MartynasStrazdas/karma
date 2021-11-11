@@ -25,6 +25,7 @@
                 @foreach (var charity in _charities)
                 {
                 <li>
+                    <img class="delete-btn" src="img/delete-btn.png" @onclick="() => OpenDialogConfirmation(charity.Id)">
                     <img src="img/save-the-children.png" alt="Charity logo">
                     <h2>@charity.Name</h2>
                     <p>@charity.Description</p>
