@@ -1,0 +1,46 @@
+﻿@using System
+@using System.IO
+@inject ISnackbar Snackbar
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            Are you sure?
+        </MudText>
+    </TitleContent>
+
+    <DialogActions>
+        <MudButton Variant="Variant.Outlined"
+                   StartIcon="@Icons.Material.Filled.Save"
+                   Color="Color.Success"
+                   Size="Size.Medium"
+                   @onclick="Confirmation">
+            Yes
+        </MudButton>
+
+        <MudButton Variant="Variant.Outlined"
+                   StartIcon="@Icons.Material.Filled.Cancel"
+                   Color="Color.Error"
+                   Size="Size.Medium"
+                   @onclick="Cancel">
+            No
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code
+{
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    private void Confirmation()
+    {
+        Snackbar.Add("Success", Severity.Success);
+        bool temp = true;
+        MudDialog.Close(DialogResult.Ok(temp));
+    }
+}
