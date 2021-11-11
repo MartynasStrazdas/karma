@@ -95,5 +95,17 @@ namespace karma.Pages
                 _announcements.Insert(0, announcement);
             }
         }
+
+        async Task OpenDialogConfirmation()
+        {
+            DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true };
+            var dialog = _dialogService.Show<DialogConfirmation>("Confirmation", options);
+            var result = await dialog.Result;
+
+            if (!result.Cancelled)
+            {
+
+            }
+        }
     }
 }
