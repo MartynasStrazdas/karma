@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +15,7 @@ namespace karma.Pages
 
         //REQUIREMENT 2.1
         //REQUIREMENT 2.5
-        private Lazy<string> _announcementTitleExample = new Lazy<string>(() => new string("Announcement Title Example"));
+        public Lazy<string> _announcementTitleExample = new Lazy<string>(() => new string("Announcement Title Example"));
         private Lazy<string> _extremelyLongAnnouncementTitleExample = new Lazy<string>(() => new string("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent quis risus quis erat malesuada dignissim in ac tortor. Nullam sed mi lacus. Quisque viverra ex at elit consectetur, sed tempor tellus rhoncus. Vestibulum laoreet ipsum sit amet lorem ullamcorper viverra. Donec sed nibh congue, euismod nisl a, commodo neque. Integer cursus quam vitae odio condimentum fermentum. Morbi at erat libero. Integer a vehicula turpis, quis ornare purus. Nam est ante, accumsan eu maximus sit amet, pellentesque non leo. Maecenas nec ante mauris. Praesent ornare pulvinar ex eget eleifend. Praesent tincidunt et nunc in accumsan. Morbi erat turpis, aliquet sed urna. "));
 
         public class TitleTooLongException : Exception
@@ -49,8 +48,43 @@ namespace karma.Pages
 
         private bool _printAnnouncementTitle = true;
 
+        // REQUIREMENT 2.4
+        class TitleAnnouncer
+        {
+            public delegate void TitleEventHandler(string title);
+            public event TitleEventHandler OnTitleCalled;
+            public void PrintTitle(string title)
+            {
+                OnTitleCalled(title);
+            }
+        }
+
+        // REQUIREMENT 2.4
+        class TitleAnnouncerImpl
+        {
+            TitleAnnouncer titleAnnouncer;
+            public TitleAnnouncerImpl()
+            {
+                titleAnnouncer = new TitleAnnouncer();
+                titleAnnouncer.OnTitleCalled += HandleTitleAnnouncer;
+            }
+
+            void HandleTitleAnnouncer(string title)
+            {
+                Console.WriteLine($"Announcement Title: {title}");
+            }
+
+            public void Run(string title)
+            {
+                titleAnnouncer.PrintTitle(title);
+            }
+        }
+
         protected override void OnInitialized()
         {
+            // REQUIREMENT 2.4
+            new TitleAnnouncerImpl().Run("Local Man Absolutely Loves Using Delegates & Events");
+
             using (var db = new dbkarmaContext())
             {
                 _announcements = db.Announcements.OrderByDescending(x => x.Added).ToList();

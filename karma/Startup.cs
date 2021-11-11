@@ -31,6 +31,7 @@ namespace karma
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            // REQUIREMENT 2.10
             services.AddMudServices();
         }
 
