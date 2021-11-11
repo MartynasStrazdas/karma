@@ -52,6 +52,7 @@ namespace karma.User
             {
                 _instance = new UserInfo();
             }
+            _instance.IsUser = true;
             _instance.IsCharity= true;
             return _instance;
         }
@@ -61,6 +62,8 @@ namespace karma.User
             {
                 _instance = new UserInfo();
             }
+            _instance.IsUser = true;
+            _instance.IsCharity = true;
             _instance.IsAdmin = true;
             return _instance;
         }

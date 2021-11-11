@@ -61,7 +61,7 @@
             if(_username == MainUser.Username && _password == MainUser.Password)
             {
                 Snackbar.Add("Success", Severity.Success);
-                MainUser = User.UserInfo.ChangePermitionsToUser();
+                MainUser = User.UserInfo.ChangePermitionsToAdmin();
                 MudDialog.Close();
             }
             else
