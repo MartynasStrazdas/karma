@@ -53,10 +53,22 @@
 
     private void Login()
     {
+        User.UserInfo MainUser = User.UserInfo.GetInstance();
         if (!String.IsNullOrWhiteSpace(_username) &&
             !String.IsNullOrWhiteSpace(_password))
         {
-            MudDialog.Close();
+            // we need to improve our security check. THIS IS A TEMPORARY
+            if(_username == MainUser.Username && _password == MainUser.Password)
+            {
+                Snackbar.Add("Success", Severity.Success);
+                MainUser = User.UserInfo.ChangePermitionsToUser();
+                MudDialog.Close();
+            }
+            else
+            {
+                Snackbar.Add("Failed", Severity.Warning);
+                MudDialog.Cancel();
+            }
         }
     }
 }
