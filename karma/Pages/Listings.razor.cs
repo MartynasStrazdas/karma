@@ -9,6 +9,7 @@ namespace karma.Pages
 {
     public partial class Listings
     {
+        private User.UserInfo MainUser = User.UserInfo.GetInstance();
         private List<Listing> _listings;
 
         protected override void OnInitialized()

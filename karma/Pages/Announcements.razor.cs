@@ -11,6 +11,7 @@ namespace karma.Pages
 {
     public partial class Announcements
     {
+        private User.UserInfo MainUser = User.UserInfo.GetInstance();
         private List<Announcement> _announcements;
 
         //REQUIREMENT 2.1

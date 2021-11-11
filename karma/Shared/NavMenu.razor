@@ -18,8 +18,11 @@
 
             <ul class="secondary-nav">
                 <li><a href="/contact">Contact</a></li>
-                <li class="login-btn" @onclick="OpenDialogLogin"><a>Login</a></li>
-                <li class="login-btn" @onclick="OpenDialogRegister"><a>Register</a></li>
+                @if (MainUser.IsUser == false)
+                {
+                    <li class="login-btn" @onclick="OpenDialogLogin"><a>Login</a></li>
+                    <li class="login-btn" @onclick="OpenDialogRegister"><a>Register</a></li>
+                }
             </ul>
         </nav>
     </div>
