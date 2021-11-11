@@ -1,0 +1,77 @@
+﻿@inject ISnackbar Snackbar
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            Register
+        </MudText>
+    </TitleContent>
+
+    <DialogContent>
+        <MudTextField @bind-Value="@_username"
+                      Label="Username"
+                      Required="true"
+                      RequiredError="Username is required" />
+        <MudTextField @bind-Value="@_password"
+                      InputType="InputType.Password"
+                      T="string" Label="Password"
+                      Variant="Variant.Text"
+                      Required="true"
+                      RequiredError="Password is required" />
+        <MudTextField @bind-Value="@_name"
+                      Label="Name"
+                      Required="true"
+                      RequiredError="Name is required" />
+        <MudTextField @bind-Value="@_surname"
+                      Label="Surname"
+                      Required="true"
+                      RequiredError="Surname is required" />
+        <MudTextField @bind-Value="@_email"
+                      Label="Email"
+                      Required="true"
+                      RequiredError="Email is required" />
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton Variant="Variant.Outlined"
+                   StartIcon="@Icons.Material.Filled.Save"
+                   Color="Color.Success"
+                   Size="Size.Medium"
+                   @onclick="Register">
+            Register
+        </MudButton>
+
+        <MudButton Variant="Variant.Outlined"
+                   StartIcon="@Icons.Material.Filled.Cancel"
+                   Color="Color.Error"
+                   Size="Size.Medium"
+                   @onclick="Cancel">
+            Cancel
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code
+{
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    private string _username { get; set; }
+    private string _password { get; set; }
+    private string _name { get; set; }
+    private string _surname { get; set; }
+    private string _email { get; set; }
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    private void Register()
+    {
+        if (!String.IsNullOrWhiteSpace(_username) &&
+            !String.IsNullOrWhiteSpace(_password))
+        {
+            MudDialog.Close();
+        }
+    }
+}
