@@ -1,9 +1,11 @@
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using karma.Components.Dialogs;
 using MudBlazor;
+
 
 namespace karma.Pages
 {
@@ -71,7 +73,6 @@ namespace karma.Pages
                 }
             }
         }
-
         // Define dialog
         //REQUIREMENT 2.8
         async Task OpenDialog()
@@ -96,15 +97,22 @@ namespace karma.Pages
             }
         }
 
-        async Task OpenDialogConfirmation()
+        async Task OpenDialogConfirmation(int Id)
         {
             DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true };
             var dialog = _dialogService.Show<DialogConfirmation>("Confirmation", options);
             var result = await dialog.Result;
+            
 
             if (!result.Cancelled)
-            {
-
+            {   
+                var announcement = new Announcement { Id = Id };
+                using (var db = new dbkarmaContext())
+                {
+                    db.Announcements.Attach(announcement);
+                    db.Announcements.Remove(announcement);
+                    db.SaveChanges();
+                }
             }
         }
     }
