@@ -41,5 +41,23 @@ namespace karma.Pages
                 _charities.Insert(0, charity);
             }
         }
+        async Task OpenDialogConfirmation(int Id)
+        {
+            DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true };
+            var dialog = _dialogService.Show<DialogConfirmation>("Confirmation", options);
+            var result = await dialog.Result;
+
+
+            if (!result.Cancelled)
+            {
+                var charity = new Charity { Id = Id };
+                using (var db = new dbkarmaContext())
+                {
+                    db.Charities.Attach(charity);
+                    db.Charities.Remove(charity);
+                    db.SaveChanges();
+                }
+            }
+        }
     }
 }
