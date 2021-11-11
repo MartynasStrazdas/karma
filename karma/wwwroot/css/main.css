@@ -273,7 +273,16 @@ nav li a:hover {
             padding: 1em 0em;
             text-align: center;
         }
+            .announcements-place ul li .delete-btn {
+                width: 2.3em;
+                height: 2em;
+                float: right;
+                margin: 1em 2em;
+            }
 
+                .announcements-place ul li .delete-btn:hover {
+                    cursor: pointer;
+                }
             .announcements-place ul li .profile-pic {
                 float: left;
                 width: 4em;
