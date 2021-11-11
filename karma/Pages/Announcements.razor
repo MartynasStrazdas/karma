@@ -23,6 +23,7 @@
                 @foreach (var announcement in _announcements)
                 {
                 <li>
+                    <img class="delete-btn" src="img/delete-btn.png">
                     <img class="profile-pic" src="img/save-the-children.png" alt="Charity logo">
                     <h1 class="charity-title">@announcement.Title</h1>
                     <h3 class="valid-date">Valid until: @announcement.ValidUntil</h3>
