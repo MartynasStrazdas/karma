@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using karma.Components.Dialogs;
 using MudBlazor;
+using System.Threading;
 
 namespace karma.Pages
 {
@@ -12,8 +13,12 @@ namespace karma.Pages
         private User.UserInfo MainUser = User.UserInfo.GetInstance();
         private List<Charity> _charities;
 
+        private static int addRemoveDialogsOpened;
+
         protected override void OnInitialized()
         {
+            addRemoveDialogsOpened = 0;
+
             using (var db = new dbkarmaContext())
             {
                 // REQUIREMENT 1.4
@@ -24,6 +29,8 @@ namespace karma.Pages
         //REQUIREMENT 2.8
         async Task OpenDialog()
         {
+            Interlocked.Increment(ref addRemoveDialogsOpened);
+
             DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true };
             var dialog = _dialogService.Show<DialogAddNewCharity>("Add charity", options);
             var result = await dialog.Result;
@@ -42,12 +49,15 @@ namespace karma.Pages
                 _charities.Insert(0, charity);
             }
         }
+
+        //REQUIREMENT 2.8
         async Task OpenDialogConfirmation(int Id)
         {
+            Interlocked.Increment(ref addRemoveDialogsOpened);
+
             DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true };
             var dialog = _dialogService.Show<DialogConfirmation>("Confirmation", options);
             var result = await dialog.Result;
-
 
             if (!result.Cancelled)
             {
