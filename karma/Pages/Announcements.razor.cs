@@ -49,41 +49,44 @@ namespace karma.Pages
         private bool _printAnnouncementTitle = true;
 
         // REQUIREMENT 2.4
+        // The "publisher"
         class TitleAnnouncer
         {
-            public delegate void TitleEventHandler(string title);
-            public event TitleEventHandler OnTitleCalled;
+            public delegate void TitleEventHandler(object o);
+            public event TitleEventHandler TitleCalled;
             public void PrintTitle(string title)
             {
-                OnTitleCalled(title);
+                Console.WriteLine(title);
+                OnTitleCalled();
+            }
+
+            protected virtual void OnTitleCalled()
+            {
+                if(TitleCalled != null)
+                {
+                    TitleCalled(this);
+                }
             }
         }
 
         // REQUIREMENT 2.4
+        // The "subscriber"
         class TitleAnnouncerImpl
         {
-            TitleAnnouncer titleAnnouncer;
-            public TitleAnnouncerImpl()
+            public void OnTitleCalled(object o)
             {
-                titleAnnouncer = new TitleAnnouncer();
-                titleAnnouncer.OnTitleCalled += HandleTitleAnnouncer;
-            }
-
-            void HandleTitleAnnouncer(string title)
-            {
-                Console.WriteLine($"Announcement Title: {title}");
-            }
-
-            public void Run(string title)
-            {
-                titleAnnouncer.PrintTitle(title);
+                Console.WriteLine("i got the message");
             }
         }
 
         protected override void OnInitialized()
         {
             // REQUIREMENT 2.4
-            new TitleAnnouncerImpl().Run("Local Man Absolutely Loves Using Delegates & Events");
+            var titleAnnouncer = new TitleAnnouncer();
+            var titleAnnouncerImpl = new TitleAnnouncerImpl();
+            // linking the titleAnnouncer to it's "subscriber"
+            titleAnnouncer.TitleCalled += titleAnnouncerImpl.OnTitleCalled;
+            titleAnnouncer.PrintTitle("Local Man Absolutely Loves Using Delegates & Events");
 
             using (var db = new dbkarmaContext())
             {
