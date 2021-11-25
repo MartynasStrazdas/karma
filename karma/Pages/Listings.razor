@@ -3,36 +3,37 @@
 @inject ISnackbar Snackbar
 <link rel="stylesheet" href="@(nameof(karma)).styles.css" />
 
-<div class="fab">
-    <MudFab Color="Color.Primary"
-            Icon="@Icons.Material.Filled.Add"
-            Label="Add listing"
-            @onclick="OpenDialog" />
-</div>
-
-<div class="listings-place">
-    <div class="container">
-        @if (_listings == null)
-        {
-            <p><em>Loading...</em></p>
-        }
-        else
-        {
-            <ul>
-                @foreach (var listing in _listings)
-                {
-                    <li>
-                        @if (MainUser.IsAdmin == true)
-                        {
-                            <img class="delete-btn" src="img/delete-btn.png" @onclick="() => OpenDialogConfirmation(listing.Id)">
-                        }
-                        <img src="img/save-the-children.png" alt="Charity logo">
-                        <h2>@listing.Title</h2>
-                        <p>@listing.Description</p>
-                        <a href="#">Apply</a>
-                    </li>
-                }
-            </ul>
-        }
+@if (MainUser.IsUser)
+{
+    <div class="fab">
+        <MudFab Color="Color.Primary"
+                Icon="@Icons.Material.Filled.Add"
+                Label="Add listing"
+                @onclick="OpenDialog" />
     </div>
-</div>
+}
+    <div class="listings-place">
+        <div class="container">
+            @if (_listings == null)
+            {
+                <p><em>Loading...</em></p>
+            }
+            else
+            {
+                <ul>
+                    @foreach (var listing in _listings)
+                    {
+                        <li>
+                            @if (MainUser.IsAdmin)
+                            {
+                                <img class="delete-btn" src="img/delete-btn.png" @onclick="() => OpenDialogConfirmation(listing.Id)">
+                            }
+                            <img src="img/save-the-children.png" alt="Charity logo">
+                            <h2>@listing.Title</h2>
+                            <p>@listing.Description</p>
+                            <a href="#">Apply</a>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
