@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using karma.Components.Dialogs;
+using karma.Ex;
 using MudBlazor;
-
 
 namespace karma.Pages
 {
@@ -17,36 +17,7 @@ namespace karma.Pages
         //REQUIREMENT 2.5
         public Lazy<string> _announcementTitleExample = new Lazy<string>(() => new string("Announcement Title Example"));
         private Lazy<string> _extremelyLongAnnouncementTitleExample = new Lazy<string>(() => new string("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent quis risus quis erat malesuada dignissim in ac tortor. Nullam sed mi lacus. Quisque viverra ex at elit consectetur, sed tempor tellus rhoncus. Vestibulum laoreet ipsum sit amet lorem ullamcorper viverra. Donec sed nibh congue, euismod nisl a, commodo neque. Integer cursus quam vitae odio condimentum fermentum. Morbi at erat libero. Integer a vehicula turpis, quis ornare purus. Nam est ante, accumsan eu maximus sit amet, pellentesque non leo. Maecenas nec ante mauris. Praesent ornare pulvinar ex eget eleifend. Praesent tincidunt et nunc in accumsan. Morbi erat turpis, aliquet sed urna. "));
-
-        public class TitleTooLongException : Exception
-        {
-            public TitleTooLongException()
-            {
-                Console.WriteLine("The announcement title is too long.");
-            }
-        }
-        public class CurseWordException : Exception
-        {
-            public CurseWordException()
-            {
-                Console.WriteLine("The announcement title contains curse words.");
-            }
-        }
-
-        bool _isStringCorrect(string str)
-        {
-            if (str.Length > 100)
-            {
-                throw new TitleTooLongException();
-            }
-            if (str.Contains("ipsum"))
-            {
-                throw new CurseWordException();
-            }
-            return true;
-        }
-
-        private bool _printAnnouncementTitle = true;
+       // private bool _printAnnouncementTitle = true;
 
         // REQUIREMENT 2.4
         // The "publisher"
@@ -92,24 +63,6 @@ namespace karma.Pages
             {
                 _announcements = db.Announcements.OrderByDescending(x => x.Added).ToList();
             }
-            if (_printAnnouncementTitle)
-            {
-                try
-                {
-                    if (_isStringCorrect(_extremelyLongAnnouncementTitleExample.Value))
-                    {
-                        Console.WriteLine(_extremelyLongAnnouncementTitleExample.Value);
-                    }
-                }
-                catch (TitleTooLongException ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-                catch (CurseWordException ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-            }
         }
         // Define dialog
         //REQUIREMENT 2.8
@@ -124,14 +77,27 @@ namespace karma.Pages
                 Announcement announcement = (Announcement) result.Data;
                 announcement.Added = DateTime.Now;
                 announcement.ValidUntil = DateTime.Now;
-
-                using (var db = new dbkarmaContext())
+                try
                 {
-                    db.Add(announcement);
-                    db.SaveChanges();
+                    if (NameChecker.isStringCorrect(announcement.Title))
+                    {
+                        using (var db = new dbkarmaContext())
+                        {
+                            db.Add(announcement);
+                            db.SaveChanges();
+                        }
+                        _announcements.Insert(0, announcement);
+                        Snackbar.Add("Announcement added!", Severity.Success);
+                    }
                 }
-
-                _announcements.Insert(0, announcement);
+                catch (TitleTooLongException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                catch (CurseWordException ex)
+                {
+                    Snackbar.Add(ex.Message, Severity.Error);
+                }
             }
         }
 

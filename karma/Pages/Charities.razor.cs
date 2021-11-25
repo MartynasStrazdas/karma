@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using karma.Components.Dialogs;
 using MudBlazor;
 using System.Threading;
-
+using karma.Ex;
 namespace karma.Pages
 {
     public partial class Charities
@@ -35,18 +35,35 @@ namespace karma.Pages
             var dialog = _dialogService.Show<DialogAddNewCharity>("Add charity", options);
             var result = await dialog.Result;
             
+
             if (!result.Cancelled)
             {
                 Charity charity = (Charity) result.Data;
                 charity.Added = DateTime.Now;
-
-                using (var db = new dbkarmaContext())
+                try
                 {
-                    db.Add(charity);
-                    db.SaveChanges();
+                    if (NameChecker.isStringCorrect(charity.Name))
+                    {
+                        using (var db = new dbkarmaContext())
+                        {
+                            db.Add(charity);
+                            db.SaveChanges();
+                        }
+                        _charities.Insert(0, charity);
+                        Snackbar.Add("Charity added!", Severity.Success);
+                    }
                 }
+                catch (TitleTooLongException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                catch (CurseWordException ex)
+                {
+                    Snackbar.Add(ex.Message, Severity.Error);
+                }
+            
 
-                _charities.Insert(0, charity);
+                
             }
         }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using karma.Components.Dialogs;
+using karma.Ex;
 using MudBlazor;
 
 namespace karma.Pages
@@ -32,14 +33,28 @@ namespace karma.Pages
             {
                 Listing listing = (Listing) result.Data;
                 listing.Added = DateTime.Now;
-
-                using (var db = new dbkarmaContext())
+                try
                 {
-                    db.Add(listing);
-                    db.SaveChanges();
+                    if (NameChecker.isStringCorrect(listing.Title))
+                    {
+                        using (var db = new dbkarmaContext())
+                        {
+                            db.Add(listing);
+                            db.SaveChanges();
+                        }
+                        _listings.Insert(0, listing);
+                        Snackbar.Add("Listing added!", Severity.Success);
+                    }
                 }
-
-                _listings.Insert(0, listing);
+                catch (TitleTooLongException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                catch (CurseWordException ex)
+                {
+                    Snackbar.Add(ex.Message, Severity.Error);
+                }
+                
             }
         }
         async Task OpenDialogConfirmation(int Id)

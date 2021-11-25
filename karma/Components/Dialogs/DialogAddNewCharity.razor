@@ -74,7 +74,6 @@
             // REQUIREMENT 1.2
             Charity charity = new Charity { Name = _name, Description = _description, Website = _website };
 
-            Snackbar.Add("Charity added!", MudBlazor.Severity.Success);
             MudDialog.Close(DialogResult.Ok(charity));
         }
     }

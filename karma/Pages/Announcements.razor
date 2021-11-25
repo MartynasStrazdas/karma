@@ -1,15 +1,15 @@
 ﻿@page "/announcements"
 <!-- REQUIREMENT 2.10 -->
 @inject IDialogService _dialogService
+@inject ISnackbar Snackbar
 
 <link rel="stylesheet" href="@(nameof(karma)).styles.css" />
 
 <div class="fab">
-    <MudFab
-        Color="Color.Primary"
-        Icon="@Icons.Material.Filled.Add"
-        Label="Add announcement"
-        @onclick="OpenDialog" />
+    <MudFab Color="Color.Primary"
+            Icon="@Icons.Material.Filled.Add"
+            Label="Add announcement"
+            @onclick="OpenDialog" />
 </div>
 
 <div class="announcements-place">
@@ -23,18 +23,18 @@
             <ul>
                 @foreach (var announcement in _announcements)
                 {
-                <li>
-                    @if (MainUser.IsAdmin == true)
-                    {
-                        <img class="delete-btn" @onclick="() => OpenDialogConfirmation(announcement.Id)" src="img/delete-btn.png">
-                    }
-                    <img class="profile-pic" src="img/save-the-children.png" alt="Charity logo">
-                    <h1 class="charity-title">@announcement.Title</h1>
-                    <h3 class="valid-date">Valid until: @announcement.ValidUntil</h3>
-                    <p class="post-text">@announcement.Description</p>
-                    <img class="post-pic" src="data:image;base64,@System.Convert.ToBase64String(@announcement.Img)" alt="Announcement image" />
-                    <a class="upvote-btn">Share!</a>
-                </li>
+                    <li>
+                        @if (MainUser.IsAdmin == true)
+                        {
+                            <img class="delete-btn" @onclick="() => OpenDialogConfirmation(announcement.Id)" src="img/delete-btn.png">
+                        }
+                        <img class="profile-pic" src="img/save-the-children.png" alt="Charity logo">
+                        <h1 class="charity-title">@announcement.Title</h1>
+                        <h3 class="valid-date">Valid until: @announcement.ValidUntil</h3>
+                        <p class="post-text">@announcement.Description</p>
+                        <img class="post-pic" src="data:image;base64,@System.Convert.ToBase64String(@announcement.Img)" alt="Announcement image" />
+                        <a class="upvote-btn">Share!</a>
+                    </li>
                 }
             </ul>
         }
