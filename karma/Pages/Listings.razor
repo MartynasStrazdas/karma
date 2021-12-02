@@ -3,14 +3,15 @@
 
 <link rel="stylesheet" href="@(nameof(karma)).styles.css" />
 
-<div class="fab">
-    <MudFab
-        Color="Color.Primary"
-        Icon="@Icons.Material.Filled.Add"
-        Label="Add listing"
-        @onclick="OpenDialog" />
-</div>
-
+@if (MainUser.IsUser)
+{
+    <div class="fab">
+        <MudFab Color="Color.Primary"
+                Icon="@Icons.Material.Filled.Add"
+                Label="Add listing"
+                @onclick="OpenDialog" />
+    </div>
+}
 <div class="listings-place">
     <div class="container">
         @if (_listings == null)
@@ -22,11 +23,11 @@
             <ul>
                 @foreach (var listing in _listings)
                 {
-                <li>
-                    @if (MainUser.IsAdmin == true)
-                    {
-                        <img class="delete-btn" src="img/delete-btn.png" @onclick="() => OpenDialogConfirmation(listing.Id)">
-                    }
+                    <li>
+                        @if (MainUser.IsAdmin == true)
+                        {
+                            <img class="delete-btn" src="img/delete-btn.png" @onclick="() => OpenDialogConfirmation(listing.Id)">
+                        }
                         <img src="img/save-the-children.png" alt="Charity logo">
                         <h2>@listing.Title</h2>
                         <p>@listing.Description</p>
