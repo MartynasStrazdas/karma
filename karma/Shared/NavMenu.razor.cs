@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using karma.Components.Dialogs;
 
 
+
 namespace karma.Shared
 {
     public partial class NavMenu
@@ -39,6 +40,11 @@ namespace karma.Shared
             {
 
             }
+        }
+        private void Logout()
+        {
+            MainUser = User.UserInfo.Logout();
+            NavigationManager.NavigateTo("/");
         }
     }
 }
