@@ -40,5 +40,9 @@ namespace karma.Shared
 
             }
         }
+        private void Logout()
+        {
+            MainUser = User.UserInfo.Logout();
+        }
     }
 }
