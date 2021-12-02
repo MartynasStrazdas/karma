@@ -1,4 +1,5 @@
 ﻿@inject IDialogService _dialogService
+@inject NavigationManager NavigationManager
 
 <div class="my-navbar">
     <div class="container">
@@ -14,6 +15,10 @@
                 <li><a href="Announcements">Announcements</a></li>
                 <li><a href="Listings">Listings</a></li>
                 <li><a href="Charities">Charities</a></li>
+                @if (MainUser.IsUser == true)
+                {
+                    <li><a href="User_page">User page</a></li>
+                }
             </ul>
 
             <ul class="secondary-nav">
@@ -22,6 +27,10 @@
                 {
                     <li class="login-btn" @onclick="OpenDialogLogin"><a>Login</a></li>
                     <li class="login-btn" @onclick="OpenDialogRegister"><a>Register</a></li>
+                }
+                else
+                {
+                    <li class="login-btn" @onclick="Logout"><a>Logout</a></li>
                 }
             </ul>
         </nav>

@@ -3,41 +3,40 @@
 
 <link rel="stylesheet" href="@(nameof(karma)).styles.css" />
 
-@if (MainUser.IsCharity)
-{
-    <div class="fab">
-        <MudFab Color="Color.Primary"
-                Icon="@Icons.Material.Filled.Add"
-                Label="Add charity"
-                @onclick="OpenDialog" />
-    </div>
-}
-    <div class="charities-place">
+<div class="fab">
+    <MudFab
+        Color="Color.Primary"
+        Icon="@Icons.Material.Filled.Add"
+        Label="Add charity"
+        @onclick="OpenDialog" />
+</div>
 
-        <div class="container">
-            @if (_charities == null)
-            {
-                <p><em>Loading...</em></p>
-            }
-            else
-            {
-                <ul>
-                    <!--REQUIREMENT 1.9-->
-                    @foreach (var charity in _charities)
+<div class="charities-place">
+
+    <div class="container">
+        @if (_charities == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            <ul>
+                <!--REQUIREMENT 1.9-->
+                @foreach (var charity in _charities)
+                {
+                <li>
+                    @if (MainUser.IsAdmin == true)
                     {
-                        <li>
-                            @if (MainUser.IsAdmin)
-                            {
-                                <img class="delete-btn" src="img/delete-btn.png" @onclick="() => OpenDialogConfirmation(charity.Id)">
-                            }
-                            <img src="img/save-the-children.png" alt="Charity logo">
-                            <h2>@charity.Name</h2>
-                            <p>@charity.Description</p>
-                            <a class="themed-button" href="@charity.Website" target="_blank" rel="noopener noreferrer">Website</a>
-                            <a class="themed-button" href="#">Donate</a>
-                        </li>
+                        <img class="delete-btn" src="img/delete-btn.png" @onclick="() => OpenDialogConfirmation(charity.Id)">
                     }
-                </ul>
-            }
-        </div>
+                        <img src="img/save-the-children.png" alt="Charity logo">
+                        <h2>@charity.Name</h2>
+                        <p>@charity.Description</p>
+                        <a class="themed-button" href="@charity.Website" target="_blank" rel="noopener noreferrer">Website</a>
+                        <a class="themed-button" href="#">Donate</a>
+                    </li>
+                }
+            </ul>
+        }
     </div>
+</div>

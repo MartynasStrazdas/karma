@@ -67,5 +67,16 @@ namespace karma.User
             _instance.IsAdmin = true;
             return _instance;
         }
+        public static UserInfo Logout()
+        {
+            if (_instance == null)
+            {
+                _instance = new UserInfo();
+            }
+            _instance.IsUser = false;
+            _instance.IsCharity = false;
+            _instance.IsAdmin = false;
+            return _instance;
+        }
     }
 }
