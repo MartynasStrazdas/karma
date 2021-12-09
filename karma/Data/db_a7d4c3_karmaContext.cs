@@ -20,6 +20,7 @@ namespace karma
         public virtual DbSet<Announcement> Announcements { get; set; }
         public virtual DbSet<Charity> Charities { get; set; }
         public virtual DbSet<Listing> Listings { get; set; }
+        public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -122,6 +123,22 @@ namespace karma
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("title");
+
+                entity.Property(e => e.UserId).HasColumnName("userId");
+            });
+
+            modelBuilder.Entity<Message>(entity =>
+            {
+                entity.ToTable("messages");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.ListingId).HasColumnName("listingId");
+
+                entity.Property(e => e.Message1)
+                    .IsRequired()
+                    .IsUnicode(false)
+                    .HasColumnName("message");
 
                 entity.Property(e => e.UserId).HasColumnName("userId");
             });
