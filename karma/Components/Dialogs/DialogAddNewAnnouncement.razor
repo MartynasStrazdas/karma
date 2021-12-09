@@ -1,0 +1,101 @@
+﻿@using System
+@using System.IO
+<!-- REQUIREMENT 2.10 -->
+@inject ISnackbar Snackbar
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            New listing
+        </MudText>
+    </TitleContent>
+
+    <DialogContent>
+        
+        <MudTextField @bind-Value="@_description"
+                      T="string"
+                      Label="Description"
+                      Variant="Variant.Text"
+                      Lines="15"
+                      Required="true"
+                      RequiredError="Description is required" />
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton Variant="Variant.Outlined"
+                   StartIcon="@Icons.Material.Filled.Save"
+                   Color="Color.Success"
+                   Size="Size.Medium"
+                   @onclick="AddAnnouncement">
+            Save
+        </MudButton>
+
+        <MudButton Variant="Variant.Outlined"
+                   StartIcon="@Icons.Material.Filled.Cancel"
+                   Color="Color.Error"
+                   Size="Size.Medium"
+                   @onclick="Cancel">
+            Cancel
+        </MudButton>
+
+        <InputFile id="fileInput"
+                   OnChange="UploadImage"
+                   hidden multiple accept=".jpg, .jpeg, .png" />
+
+        <MudButton HtmlTag="label"
+                   Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Filled.CloudUpload"
+                   for="fileInput">
+            Upload your images
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code
+{
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    private UserInfo _mainUser = UserInfo.GetInstance();
+    private string _description { get; set; }
+    private byte[] _byteArray { get; set; }
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    private void AddAnnouncement()
+    {
+        if (!String.IsNullOrWhiteSpace(_description) &&
+            _byteArray != null)
+        {
+            Announcement announcement = new Announcement { Title = _mainUser.Name, Description = _description, UserId = _mainUser.Id, AnnouncementImg = _byteArray,  UserImg = _mainUser.Img};
+
+            Snackbar.Add("Announcement added!", Severity.Success);
+            MudDialog.Close(DialogResult.Ok(announcement));
+        }
+    }
+
+    private async Task UploadImage(InputFileChangeEventArgs e)
+    {
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopCenter;
+        MemoryStream ms = new MemoryStream();
+        var fileExtension = e.File.Name.Split(".").Last();
+        if (e.File.Size > 1000000)
+        {
+            Snackbar.Add($"File is too large (max: 1 MB)", Severity.Error);
+        }
+        else if (fileExtension != "jpg" &&
+                 fileExtension != "jpeg" &&
+                 fileExtension != "png")
+        {
+            Snackbar.Add($"{e.File.Name.Split(".").Last()} file is not allowed (allowed: jpg, jpeg, png)", Severity.Error);
+        }
+        else
+        {
+            await e.File.OpenReadStream().CopyToAsync(ms);
+            _byteArray = ms.ToArray();
+        }
+    }
+}
