@@ -1,3 +1,5 @@
+@using System
+@using System.IO
 @inject ISnackbar Snackbar
 
 <MudDialog>
@@ -8,61 +10,92 @@
     </TitleContent>
 
     <DialogContent>
-        <MudTextField
-            @bind-Value="@_title"
-            Label="Title"
-            Required="true"
-            RequiredError="Title is required" />
-        <MudTextField
-            @bind-Value="@_description"
-            T="string" Label="Description"
-            Variant="Variant.Text"
-            Lines="15"
-            Required="true"
-            RequiredError="Description is required"/>
+        <MudTextField @bind-Value="@_title"
+                      Label="Title"
+                      Required="true"
+                      RequiredError="Title is required" />
+        <MudTextField @bind-Value="@_description"
+                      T="string" Label="Description"
+                      Variant="Variant.Text"
+                      Lines="15"
+                      Required="true"
+                      RequiredError="Description is required" />
     </DialogContent>
 
     <DialogActions>
-        <MudButton
-            Variant="Variant.Outlined"
-            StartIcon="@Icons.Material.Filled.Save"
-            Color="Color.Success"
-            Size="Size.Medium"
-            @onclick="AddListing">
-        Save
+        <MudButton Variant="Variant.Outlined"
+                   StartIcon="@Icons.Material.Filled.Save"
+                   Color="Color.Success"
+                   Size="Size.Medium"
+                   @onclick="AddListing">
+            Save
         </MudButton>
 
         <MudButton Variant="Variant.Outlined"
-               StartIcon="@Icons.Material.Filled.Cancel"
-               Color="Color.Error"
-               Size="Size.Medium"
-               @onclick="Cancel">
-        Cancel
+                   StartIcon="@Icons.Material.Filled.Cancel"
+                   Color="Color.Error"
+                   Size="Size.Medium"
+                   @onclick="Cancel">
+            Cancel
+        </MudButton>
+
+        <InputFile id="fileInput"
+                   OnChange="UploadImage"
+                   hidden multiple accept=".jpg, .jpeg, .png" />
+
+        <MudButton HtmlTag="label"
+                   Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Filled.CloudUpload"
+                   for="fileInput">
+            Upload your images
         </MudButton>
     </DialogActions>
 </MudDialog>
 
 @code
-{
-    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    
-    private string _title { get; set; }
-    private string _description { get; set; }
+{ [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
-    private void Cancel()
-    {
-        MudDialog.Cancel();
-    }
+            private string _title { get; set; }
+            private string _description { get; set; }
+            private byte[] _byteArray { get; set; }
 
-    private void AddListing()
-    {
-        if (!String.IsNullOrWhiteSpace(_title) &&
-            !String.IsNullOrWhiteSpace(_description))
-        {
-            Listing listing = new Listing{ Title = _title, Description = _description };
+            private void Cancel()
+            {
+                MudDialog.Cancel();
+            }
 
-            Snackbar.Add("Listing added!", Severity.Success);
-            MudDialog.Close(DialogResult.Ok(listing));
-        }
-    }
-}
+            private void AddListing()
+            {
+                if (!String.IsNullOrWhiteSpace(_title) &&
+                    !String.IsNullOrWhiteSpace(_description) &&
+                    _byteArray != null)
+                {
+                    Listing listing = new Listing { Title = _title, Description = _description, Img = _byteArray };
+
+                    Snackbar.Add("Listing added!", Severity.Success);
+                    MudDialog.Close(DialogResult.Ok(listing));
+                }
+            }
+
+            private async Task UploadImage(InputFileChangeEventArgs e)
+            {
+                Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopCenter;
+                MemoryStream ms = new MemoryStream();
+                var fileExtension = e.File.Name.Split(".").Last();
+                if (e.File.Size > 1000000)
+                {
+                    Snackbar.Add($"File is too large (max: 1 MB)", Severity.Error);
+                }
+                else if (fileExtension != "jpg" &&
+                         fileExtension != "jpeg" &&
+                         fileExtension != "png")
+                {
+                    Snackbar.Add($"{e.File.Name.Split(".").Last()} file is not allowed (allowed: jpg, jpeg, png)", Severity.Error);
+                }
+                else
+                {
+                    await e.File.OpenReadStream().CopyToAsync(ms);
+                    _byteArray = ms.ToArray();
+                }
+            } }

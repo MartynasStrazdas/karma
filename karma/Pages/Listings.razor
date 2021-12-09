@@ -23,16 +23,16 @@
             <ul>
                 @foreach (var listing in _listings)
                 {
-                    <li>
-                        @if (MainUser.IsAdmin == true)
-                        {
-                            <img class="delete-btn" src="img/delete-btn.png" @onclick="() => OpenDialogConfirmation(listing.Id)">
-                        }
-                        <img src="img/save-the-children.png" alt="Charity logo">
-                        <h2>@listing.Title</h2>
-                        <p>@listing.Description</p>
-                        <a href="#">Apply</a>
-                    </li>
+                <li>
+                    @if (MainUser.IsAdmin == true)
+                    {
+                        <img class="delete-btn" src="img/delete-btn.png" @onclick="() => OpenDialogConfirmation(listing.Id)">
+                    }
+                    <img class="post-pic" src="data:image;base64,@System.Convert.ToBase64String(@listing.Img)" alt="Listing image" />
+                    <h2>@listing.Title</h2>
+                    <p>@listing.Description</p>
+                    <a href="#">Apply</a>
+                </li>
                 }
             </ul>
         }
