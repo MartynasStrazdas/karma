@@ -45,13 +45,13 @@ namespace karma
                     .HasColumnType("datetime")
                     .HasColumnName("added");
 
+                entity.Property(e => e.AnnouncementImg).HasColumnName("announcementImg");
+
                 entity.Property(e => e.Description)
                     .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("description");
-
-                entity.Property(e => e.Img).HasColumnName("img");
 
                 entity.Property(e => e.Title)
                     .IsRequired()
@@ -60,6 +60,8 @@ namespace karma
                     .HasColumnName("title");
 
                 entity.Property(e => e.UserId).HasColumnName("userId");
+
+                entity.Property(e => e.UserImg).HasColumnName("userImg");
 
                 entity.Property(e => e.ValidUntil)
                     .HasColumnType("datetime")
