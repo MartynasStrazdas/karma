@@ -6,9 +6,13 @@
 
 <MudTabs Elevation="4" Rounded="true" Centered="true" Color="@Color.Primary">
     <MudTabPanel Text="Your Information">
-        <img class="post-pic" src="data:image;base64,@System.Convert.ToBase64String(@_mainUser.Img)" alt="Profile pic" />
-        <h1>@_mainUser.Name</h1>
-        <p>@_mainUser.Email</p>
+        <div class="listings-place">
+            <div class="container">
+                <img class="post-pic" src="data:image;base64,@System.Convert.ToBase64String(@_mainUser.Img)" alt="Profile pic" />
+                <h1>@_mainUser.Name</h1>
+                <p>@_mainUser.Email</p>
+            </div>
+        </div>
     </MudTabPanel>
     @if (_mainUser.IsCharity)
     {
@@ -17,12 +21,7 @@
                 <div class="container">
                     @if (_announcements == null)
                     {
-                        <MudSkeleton SkeletonType="SkeletonType.Circle" Width="50px" Height="50px" />
-                        <MudSkeleton />
-                        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="1000px" Height="500px" />
 
-                        <MudSkeleton SkeletonType="SkeletonType.Circle" Width="50px" Height="50px" />
-                        <MudSkeleton />
                         <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="1000px" Height="500px" />
                   }
                     else

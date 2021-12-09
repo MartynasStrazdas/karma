@@ -31,7 +31,7 @@ namespace karma.Pages
             {
                 _announcements = await db.Announcements.OrderByDescending(x => x.Added).ToListAsync();
                 _listings = await db.Listings.OrderByDescending(x => x.Added).ToListAsync();
-                _messages = db.Messages.ToListAsync();
+                _messages = await db.Messages.ToListAsync();
             }
         }
         async Task OpenDialogConfirmationListing(int Id)
