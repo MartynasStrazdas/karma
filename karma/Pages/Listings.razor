@@ -33,7 +33,7 @@
                     <p>@listing.Description</p>
                     @if (MainUser.IsUser)
                     {
-                        <a @onclick ="OpenDialogApply">Apply</a>
+                        <a @onclick ="() => OpenDialogApply(listing.Id)">Apply</a>
                     }
                 </li>
                 }

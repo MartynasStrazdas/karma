@@ -12,13 +12,25 @@ namespace karma.Pages
         private UserInfo _mainUser = UserInfo.GetInstance();
         private List<Announcement> _announcements;
         private List<Listing> _listings;
+        private List<Message> _messages;
+        private List<User> _users;
 
+        public User getUserByID(int thisId)
+        {
+            using (var db = new db_a7d4c3_karmaContext())
+            {
+                User user = db.Users.Where(b => b.Id == thisId).FirstOrDefault();
+                return user;
+            }
+            
+        }
         protected override void OnInitialized()
         {
             using (var db = new db_a7d4c3_karmaContext())
             {
                 _announcements = db.Announcements.OrderByDescending(x => x.Added).ToList();
                 _listings = db.Listings.OrderByDescending(x => x.Added).ToList();
+                _messages = db.Messages.ToList();
             }
         }
         async Task OpenDialogConfirmationListing(int Id)
