@@ -10,7 +10,7 @@ namespace karma.Pages
 {
     public partial class Charities
     {
-        private User.UserInfo MainUser = User.UserInfo.GetInstance();
+        private UserInfo MainUser = UserInfo.GetInstance();
         private List<Charity> _charities;
 
         private static int addRemoveDialogsOpened;
@@ -19,7 +19,7 @@ namespace karma.Pages
         {
             addRemoveDialogsOpened = 0;
 
-            using (var db = new dbkarmaContext())
+            using (var db = new db_a7d4c3_karmaContext())
             {
                 // REQUIREMENT 1.4
                 // REQUIREMENT 1.10
@@ -40,7 +40,7 @@ namespace karma.Pages
                 Charity charity = (Charity) result.Data;
                 charity.Added = DateTime.Now;
 
-                using (var db = new dbkarmaContext())
+                using (var db = new db_a7d4c3_karmaContext())
                 {
                     db.Add(charity);
                     db.SaveChanges();
@@ -62,7 +62,7 @@ namespace karma.Pages
             if (!result.Cancelled)
             {
                 var charity = new Charity { Id = Id };
-                using (var db = new dbkarmaContext())
+                using (var db = new db_a7d4c3_karmaContext())
                 {
                     db.Charities.Attach(charity);
                     db.Charities.Remove(charity);

@@ -10,7 +10,7 @@ namespace karma.Shared
 {
     public partial class NavMenu
     {
-        private User.UserInfo MainUser = User.UserInfo.GetInstance();
+        private UserInfo MainUser = UserInfo.GetInstance();
         private String MenuButtonClass = "nav-not-pressed"; //Determines <nav> class, to open mobile navbar.
 
         private void ExpandMenu()
@@ -43,7 +43,7 @@ namespace karma.Shared
         }
         private void Logout()
         {
-            MainUser = User.UserInfo.Logout();
+            UserInfo.Logout();
             NavigationManager.NavigateTo("/");
         }
     }

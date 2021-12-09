@@ -81,7 +81,7 @@
             !String.IsNullOrWhiteSpace(_description) &&
             _byteArray != null)
         {
-            Announcement announcement = new Announcement{ Title = _title, Description = _description, Img = _byteArray};
+            Announcement announcement = new Announcement { Title = _title, Description = _description, Img = _byteArray};
 
             Snackbar.Add("Announcement added!", Severity.Success);
             MudDialog.Close(DialogResult.Ok(announcement));

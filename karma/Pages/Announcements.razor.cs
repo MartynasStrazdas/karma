@@ -10,7 +10,7 @@ namespace karma.Pages
 {
     public partial class Announcements
     {
-        private User.UserInfo MainUser = User.UserInfo.GetInstance();
+        private UserInfo _mainUser = UserInfo.GetInstance();
         private List<Announcement> _announcements;
 
         //REQUIREMENT 2.1
@@ -88,7 +88,7 @@ namespace karma.Pages
             titleAnnouncer.TitleCalled += titleAnnouncerImpl.OnTitleCalled;
             titleAnnouncer.PrintTitle("Local Man Absolutely Loves Using Delegates & Events");
 
-            using (var db = new dbkarmaContext())
+            using (var db = new db_a7d4c3_karmaContext())
             {
                 _announcements = db.Announcements.OrderByDescending(x => x.Added).ToList();
             }
@@ -125,7 +125,7 @@ namespace karma.Pages
                 announcement.Added = DateTime.Now;
                 announcement.ValidUntil = DateTime.Now;
 
-                using (var db = new dbkarmaContext())
+                using (var db = new db_a7d4c3_karmaContext())
                 {
                     db.Add(announcement);
                     db.SaveChanges();
@@ -145,7 +145,7 @@ namespace karma.Pages
             if (!result.Cancelled)
             {   
                 var announcement = new Announcement { Id = Id };
-                using (var db = new dbkarmaContext())
+                using (var db = new db_a7d4c3_karmaContext())
                 {
                     db.Announcements.Attach(announcement);
                     db.Announcements.Remove(announcement);

@@ -4,7 +4,7 @@
 
 <link rel="stylesheet" href="@(nameof(karma)).styles.css" />
 
-@if (MainUser.IsUser)
+@if (_mainUser.IsUser)
 {
     <div class="fab">
         <MudFab Color="Color.Primary"
@@ -24,7 +24,7 @@
     @foreach (var announcement in _announcements)
     {
 <li>
-    @if (MainUser.IsAdmin == true)
+    @if (_mainUser.IsAdmin == true)
     {
 <img class="delete-btn" @onclick="() => OpenDialogConfirmation(announcement.Id)" src="img/delete-btn.png">                    }
     <img class="profile-pic" src="img/save-the-children.png" alt="Charity logo">

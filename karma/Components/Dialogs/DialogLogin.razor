@@ -53,21 +53,23 @@
 
     private void Login()
     {
-        User.UserInfo MainUser = User.UserInfo.GetInstance();
+        UserInfo _mainUser = UserInfo.GetInstance();
         if (!String.IsNullOrWhiteSpace(_username) &&
             !String.IsNullOrWhiteSpace(_password))
         {
-            // we need to improve our security check. THIS IS A TEMPORARY
-            if(_username == MainUser.Username && _password == MainUser.Password)
+            using (var db = new db_a7d4c3_karmaContext())
             {
-                Snackbar.Add("Success", Severity.Success);
-                MainUser = User.UserInfo.ChangePermitionsToAdmin();
-                MudDialog.Close();
-            }
-            else
-            {
-                Snackbar.Add("Failed", Severity.Warning);
-                MudDialog.Cancel();
+                if (db.Users.Any(u => u.Username == _username && u.Password == _password))
+                {
+                    var user = db.Users.Where(u => u.Username == _username && u.Password == _password).SingleOrDefault();
+                    UserInfo.Login(user);
+                    Snackbar.Add("Login successful!", Severity.Success);
+                    MudDialog.Close();
+                }
+                else
+                {
+                    Snackbar.Add("Login failed!", Severity.Error);
+                }
             }
         }
     }
