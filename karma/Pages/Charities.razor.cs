@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using karma.Components.Dialogs;
 using MudBlazor;
 using System.Threading;
+using Microsoft.EntityFrameworkCore;
 
 namespace karma.Pages
 {
@@ -15,7 +16,7 @@ namespace karma.Pages
 
         private static int addRemoveDialogsOpened;
 
-        protected override void OnInitialized()
+        protected override async Task OnInitializedAsync()
         {
             addRemoveDialogsOpened = 0;
 
@@ -23,7 +24,7 @@ namespace karma.Pages
             {
                 // REQUIREMENT 1.4
                 // REQUIREMENT 1.10
-                _charities = db.Charities.OrderByDescending(x => x.Added).ToList();
+                _charities = await db.Charities.OrderByDescending(x => x.Added).ToListAsync();
             }
         }
         //REQUIREMENT 2.8

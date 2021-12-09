@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using karma.Components.Dialogs;
 using MudBlazor;
+using Microsoft.EntityFrameworkCore;
 
 namespace karma.Pages
 {
@@ -12,11 +13,11 @@ namespace karma.Pages
         private UserInfo MainUser = UserInfo.GetInstance();
         private List<Listing> _listings;
 
-        protected override void OnInitialized()
+        protected override async Task OnInitializedAsync()
         {
             using (var db = new db_a7d4c3_karmaContext())
             {
-                _listings = db.Listings.OrderByDescending(x => x.Added).ToList();
+                _listings = await db.Listings.OrderByDescending(x => x.Added).ToListAsync();
             }
         }
 
