@@ -1,5 +1,5 @@
 ﻿@inject ISnackbar Snackbar
-
+@inject NavigationManager NavigationManager
 <MudDialog>
     <TitleContent>
         <MudText Typo="Typo.h6">
@@ -40,8 +40,7 @@
 </MudDialog>
 
 @code
-{
-    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+{ [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
     private string _username { get; set; }
     private string _password { get; set; }
@@ -65,6 +64,7 @@
                     UserInfo.Login(user);
                     Snackbar.Add("Login successful!", Severity.Success);
                     MudDialog.Close();
+                    NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
                 }
                 else
                 {
@@ -72,5 +72,4 @@
                 }
             }
         }
-    }
-}
+    } }

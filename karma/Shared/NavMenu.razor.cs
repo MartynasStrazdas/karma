@@ -44,7 +44,7 @@ namespace karma.Shared
         private void Logout()
         {
             UserInfo.Logout();
-            NavigationManager.NavigateTo("/");
+            NavigationManager.NavigateTo("/", forceLoad: true);
         }
     }
 }
