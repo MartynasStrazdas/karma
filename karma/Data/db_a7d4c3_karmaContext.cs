@@ -156,12 +156,6 @@ namespace karma
                     .IsUnicode(false)
                     .HasColumnName("password");
 
-                entity.Property(e => e.Surname)
-                    .IsRequired()
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("surname");
-
                 entity.Property(e => e.Username)
                     .IsRequired()
                     .HasMaxLength(255)
