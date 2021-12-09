@@ -6,11 +6,12 @@
 
 <MudTabs Elevation="4" Rounded="true" Centered="true" Color="@Color.Primary">
     <MudTabPanel Text="Your Information">
-        <h1>@_mainUser.Name</h1>
-        <h2>@_mainUser.Email</h2>
         <img class="post-pic" src="data:image;base64,@System.Convert.ToBase64String(@_mainUser.Img)" alt="Profile pic" />
+        <h1>@_mainUser.Name</h1>
+        <p>@_mainUser.Email</p>
     </MudTabPanel>
-    @if(_mainUser.IsCharity){
+    @if (_mainUser.IsCharity)
+    {
         <MudTabPanel Text="Your Announcements">
             <div class="announcements-place">
                 <div class="container">
@@ -23,27 +24,29 @@
                         <MudSkeleton SkeletonType="SkeletonType.Circle" Width="50px" Height="50px" />
                         <MudSkeleton />
                         <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="1000px" Height="500px" />
-                    }
+                  }
                     else
                     {
-                    <ul>
-                        @foreach (var announcement in _announcements)
-                        {
-                            if (announcement.UserId == _mainUser.Id) {
-                        <li>
-                            
-                            <img class="delete-btn" @onclick="() => OpenDialogConfirmationAnnouncement(announcement.Id)" src="img/delete-btn.png">
-                            <img class="profile-pic" src="img/save-the-children.png" alt="Charity logo">
-                            <h1 class="charity-title">@announcement.Title</h1>
-                            <h3 class="valid-date">Valid until: @announcement.ValidUntil</h3>
-                            <p class="post-text">@announcement.Description</p>
-                            <img class="post-pic" src="data:image;base64,@System.Convert.ToBase64String(@announcement.AnnouncementImg)" alt="Announcement image" />
-                            <a class="upvote-btn">Share!</a>
-                        </li>      
+                        <ul>
+                            @foreach (var announcement in _announcements)
+                            {
+                                if (announcement.UserId == _mainUser.Id)
+                                {
+                                    <li>
+
+                                        <img class="delete-btn" @onclick="() => OpenDialogConfirmationAnnouncement(announcement.Id)" src="img/delete-btn.png">
+                                        <img class="profile-pic" src="img/save-the-children.png" alt="Charity logo">
+                                        <h1 class="charity-title">@announcement.Title</h1>
+                                        <h3 class="valid-date">Valid until: @announcement.ValidUntil</h3>
+                                        <p class="post-text">@announcement.Description</p>
+                                        <img class="post-pic" src="data:image;base64,@System.Convert.ToBase64String(@announcement.AnnouncementImg)" alt="Announcement image" />
+                                        <a class="upvote-btn">Share!</a>
+                                    </li>
+
+                                }
                             }
-                        }
-                    </ul>
-                     }
+                        </ul>
+                    }
                 </div>
             </div>
         </MudTabPanel>
@@ -63,22 +66,52 @@
                 }
                 else
                 {
-                <ul>
-                    @foreach (var listing in _listings)
-                    {
-                        @if(listing.UserId == _mainUser.Id){
-                        <li>
-                            <img class="delete-btn" src="img/delete-btn.png" @onclick="() => OpenDialogConfirmationListing(listing.Id)">
-                            <img class="post-pic" src="data:image;base64,@System.Convert.ToBase64String(@listing.Img)" alt="Listing image" />
-                            <h2>@listing.Title</h2>
-                            <p>@listing.Description</p>
-                        </li>
+                    <ul>
+                        @foreach (var listing in _listings)
+                        {
+                            @if (listing.UserId == _mainUser.Id)
+                            {
+                                <li>
+                                    <img class="delete-btn" src="img/delete-btn.png" @onclick="() => OpenDialogConfirmationListing(listing.Id)">
+                                    <img class="post-pic" src="data:image;base64,@System.Convert.ToBase64String(@listing.Img)" alt="Listing image" />
+                                    <h2>@listing.Title</h2>
+                                    <p>@listing.Description</p>
+                                </li>
+                            }
                         }
-                    }
-                </ul>
+                    </ul>
                 }
             </div>
         </div>
+    </MudTabPanel>
+    <MudTabPanel Text="Your Messages">
+        @if (_messages == null)
+        {
+            <MudSkeleton SkeletonType="SkeletonType.Circle" Width="50px" Height="50px" />
+            <MudSkeleton />
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="1000px" Height="500px" />
+
+            <MudSkeleton SkeletonType="SkeletonType.Circle" Width="50px" Height="50px" />
+            <MudSkeleton />
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="1000px" Height="500px" />
+        }
+        else
+        {
+            <div class="listings-place">
+                <div class="container">
+                    <ul>
+                        @foreach (var message in _messages)
+                        {
+                        <li>
+                            <h3 class="valid-date">From: @getUserByID(message.UserId).Name </h3>
+                            <h1>@message.Message1</h1>
+                        </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        }
+
     </MudTabPanel>
 </MudTabs>
 @code {

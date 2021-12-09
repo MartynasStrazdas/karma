@@ -43,11 +43,22 @@ namespace karma.Pages
                 _listings.Insert(0, listing);
             }
         }
-        async Task OpenDialogApply()
+        async Task OpenDialogApply(int Id)
         {
+            var parameters = new DialogParameters { ["id"] = Id };
             DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true };
-            var dialog = _dialogService.Show<DialogApply>("Aplly", options);
+            var dialog = _dialogService.Show<DialogApply>("Apply",parameters, options);
             var result = await dialog.Result;
+            if (!result.Cancelled)
+            {
+                Message message = (Message) result.Data;
+                message.ListingId = Id;
+                using (var db = new db_a7d4c3_karmaContext())
+                {
+                    db.Messages.Add(message);
+                    db.SaveChanges();
+                }
+            }
         }
         async Task OpenDialogConfirmation(int Id)
         {

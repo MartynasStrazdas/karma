@@ -40,12 +40,21 @@
 @code {
     MudForm form;
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public int Id { get; set; } 
     private string _description { get; set; }
+    private UserInfo _mainUser = UserInfo.GetInstance();
     private void Cancel()
     {
         MudDialog.Cancel();
     }
     private void Apply() {
-        MudDialog.Close(DialogResult.Ok("ok"));
+
+        if (!String.IsNullOrWhiteSpace(_description))
+        {
+            Message message = new Message {UserId = _mainUser.Id, ListingId = Id, Message1 = _description};
+
+            Snackbar.Add("Message sent", Severity.Success);
+            MudDialog.Close(DialogResult.Ok(message));
+        }
     }
 }
