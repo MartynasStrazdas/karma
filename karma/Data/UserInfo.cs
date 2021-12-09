@@ -8,7 +8,6 @@ public class UserInfo
 {
     public int Id { get; set; }
     public string Name { get; set; }
-    public string Surname { get; set; }
     public string Username { get; set; }
     public string Password { get; set; }
     public string Email { get; set; }
@@ -38,7 +37,6 @@ public class UserInfo
         }
         _instance.Id = user.Id;
         _instance.Name = user.Name;
-        _instance.Surname = user.Surname;
         _instance.Username = user.Username;
         _instance.Password = user.Password;
         _instance.Email = user.Email;
