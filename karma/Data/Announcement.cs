@@ -13,6 +13,7 @@ namespace karma
         public string Description { get; set; }
         public DateTime Added { get; set; }
         public DateTime ValidUntil { get; set; }
-        public byte[] Img { get; set; }
+        public byte[] UserImg { get; set; }
+        public byte[] AnnouncementImg { get; set; }
     }
 }
