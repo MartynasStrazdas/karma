@@ -108,10 +108,13 @@ section {
   font-weight: bold;
   display: inline-block;
 }
+.left-col .primary-cta:hover{
+    cursor:pointer;
+}
 
 .left-col .video-cta {
-  display: block;
-  margin-top: 1em;
+    display: block;
+    margin-top: 1em;
 }
 
 .left-col .video-cta img {
@@ -417,6 +420,7 @@ nav li a:hover {
 .listings-place ul li a:hover {
   background: var(--primary-color);
   color: white;
+  cursor: pointer;
 }
 
 .charities-place {
@@ -542,6 +546,7 @@ nav li a:hover {
         .my-navbar nav li.login-btn a:hover {
             background: var(--primary-color);
             color: white;
+            cursor: pointer;
         }
   .listings-place ul {
     display: -ms-grid;
