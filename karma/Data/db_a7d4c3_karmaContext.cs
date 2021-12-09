@@ -46,6 +46,7 @@ namespace karma
                     .HasColumnName("added");
 
                 entity.Property(e => e.Description)
+                    .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("description");
@@ -57,6 +58,8 @@ namespace karma
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("title");
+
+                entity.Property(e => e.UserId).HasColumnName("userId");
 
                 entity.Property(e => e.ValidUntil)
                     .HasColumnType("datetime")
