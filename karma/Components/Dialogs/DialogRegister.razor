@@ -24,8 +24,6 @@
                       Label="Name"
                       Required="true"
                       RequiredError="Name is required" />
-        <MudTextField @bind-Value="@_surname"
-                      Label="Surname" />
         <MudTextField @bind-Value="@_email"
                       Label="Email"
                       Required="true"
@@ -79,7 +77,6 @@
     private string _username { get; set; }
     private string _password { get; set; }
     private string _name { get; set; }
-    private string _surname { get; set; }
     private string _email { get; set; }
     private byte[] _byteArray { get; set; }
     private bool _isUser { get; set; }
@@ -136,7 +133,8 @@
                         Email = _email,
                         IsUser = true,
                         IsCharity = !_isUser,
-                        IsAdmin = false
+                        IsAdmin = false,
+                        Img = _byteArray
                     };
                     db.Add(user);
                     db.SaveChanges();

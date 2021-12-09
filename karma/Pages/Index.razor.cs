@@ -8,6 +8,7 @@ namespace karma.Pages
 {
     public partial class Index
     {
+        private UserInfo _mainUser = UserInfo.GetInstance();
         private async Task OpenDialogRegister()
         {
             var dialog = _dialogService.Show<DialogRegister>("Register");

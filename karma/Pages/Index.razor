@@ -7,7 +7,9 @@
             <h1>Unified charity app!</h1>
 
             <div class="hero-cta">
-                <a @onclick="OpenDialogRegister" class="primary-cta">Jump into Action</a>
+                @if(!_mainUser.IsUser){
+                    <a @onclick="OpenDialogRegister" class="primary-cta">Jump into Action</a>
+                }
             </div>
         </div>
         <img src="img/logo.png" class="hero-img" alt="logo">

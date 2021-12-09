@@ -1,0 +1,71 @@
+﻿@page "/Userpage"
+@inject IDialogService _dialogService
+@inject NavigationManager NavigationManager
+
+
+
+<MudTabs Elevation="4" Rounded="true" Centered="true" Color="@Color.Primary">
+    <MudTabPanel Text="Your Information">
+        <h1>@_mainUser.Name</h1>
+        <h2>@_mainUser.Email</h2>
+        <img class="post-pic" src="data:image;base64,@System.Convert.ToBase64String(@_mainUser.Img)" alt="Profile pic" />
+    </MudTabPanel>
+    @if(_mainUser.IsCharity){
+        <MudTabPanel Text="Your Announcements">
+            <div class="announcements-place">
+                <div class="container">
+                    @if (_announcements == null)
+                    {
+                    <p><em>Loading...</em></p> }
+                    else
+                    {
+                    <ul>
+                        @foreach (var announcement in _announcements)
+                        {
+                        <li>
+                            
+                            <img class="delete-btn" @onclick="() => OpenDialogConfirmation(announcement.Id)" src="img/delete-btn.png">
+                            <img class="profile-pic" src="img/save-the-children.png" alt="Charity logo">
+                            <h1 class="charity-title">@announcement.Title</h1>
+                            <h3 class="valid-date">Valid until: @announcement.ValidUntil</h3>
+                            <p class="post-text">@announcement.Description</p>
+                            <img class="post-pic" src="data:image;base64,@System.Convert.ToBase64String(@announcement.Img)" alt="Announcement image" />
+                            <a class="upvote-btn">Share!</a>
+                        </li>                
+                         }
+                    </ul>
+                     }
+                </div>
+            </div>
+        </MudTabPanel>
+    }
+    <MudTabPanel Text="Your Listings">
+        <div class="listings-place">
+            <div class="container">
+                @if (_listings == null)
+                {
+                <p><em>Loading...</em></p>
+                }
+                else
+                {
+                <ul>
+                    @foreach (var listing in _listings)
+                    {
+                        @if(listing.UserId == _mainUser.Id){
+                        <li>
+                            <img class="delete-btn" src="img/delete-btn.png" @onclick="() => OpenDialogConfirmation(listing.Id)">
+                            <img class="post-pic" src="data:image;base64,@System.Convert.ToBase64String(@listing.Img)" alt="Listing image" />
+                            <h2>@listing.Title</h2>
+                            <p>@listing.Description</p>
+                        </li>
+                        }
+                    }
+                </ul>
+                }
+            </div>
+        </div>
+    </MudTabPanel>
+</MudTabs>
+@code {
+
+}
