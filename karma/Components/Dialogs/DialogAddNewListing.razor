@@ -72,7 +72,7 @@
                     !String.IsNullOrWhiteSpace(_description) &&
                     _byteArray != null)
                 {
-                    Listing listing = new Listing { Title = _title, Description = _description, Img = _byteArray };
+                    Listing listing = new Listing { Title = _title, UserId = UserId = UserInfo.GetInstance().Id, Description = _description, Img = _byteArray };
 
                     Snackbar.Add("Listing added!", Severity.Success);
                     MudDialog.Close(DialogResult.Ok(listing));

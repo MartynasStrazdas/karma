@@ -88,6 +88,8 @@ namespace karma
                     .IsUnicode(false)
                     .HasColumnName("name");
 
+                entity.Property(e => e.UserId).HasColumnName("userId");
+
                 entity.Property(e => e.Website)
                     .IsRequired()
                     .HasMaxLength(255)
@@ -118,6 +120,8 @@ namespace karma
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("title");
+
+                entity.Property(e => e.UserId).HasColumnName("userId");
             });
 
             modelBuilder.Entity<User>(entity =>
