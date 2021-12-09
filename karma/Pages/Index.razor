@@ -1,5 +1,5 @@
 ﻿@page "/"
-
+@inject IDialogService _dialogService
 <section class="hero">
     <div class="container">
         <div class="left-col">
@@ -7,7 +7,7 @@
             <h1>Unified charity app!</h1>
 
             <div class="hero-cta">
-                <a href="#" class="primary-cta">Jump into Action</a>
+                <a @onclick="OpenDialogRegister" class="primary-cta">Jump into Action</a>
             </div>
         </div>
         <img src="img/logo.png" class="hero-img" alt="logo">

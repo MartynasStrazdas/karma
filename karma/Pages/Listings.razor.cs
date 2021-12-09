@@ -42,6 +42,12 @@ namespace karma.Pages
                 _listings.Insert(0, listing);
             }
         }
+        async Task OpenDialogApply()
+        {
+            DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true };
+            var dialog = _dialogService.Show<DialogApply>("Aplly", options);
+            var result = await dialog.Result;
+        }
         async Task OpenDialogConfirmation(int Id)
         {
             DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true };
