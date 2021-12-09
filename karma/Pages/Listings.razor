@@ -16,7 +16,13 @@
     <div class="container">
         @if (_listings == null)
         {
-            <p><em>Loading...</em></p>
+            <MudSkeleton SkeletonType="SkeletonType.Circle" Width="50px" Height="50px" />
+            <MudSkeleton />
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="1000px" Height="500px" />
+
+            <MudSkeleton SkeletonType="SkeletonType.Circle" Width="50px" Height="50px" />
+            <MudSkeleton />
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="1000px" Height="500px" />
         }
         else
         {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using karma.Components.Dialogs;
 using MudBlazor;
+using Microsoft.EntityFrameworkCore;
 
 namespace karma.Pages
 {
@@ -14,7 +15,7 @@ namespace karma.Pages
         private List<Listing> _listings;
         private List<Message> _messages;
         private List<User> _users;
-
+      
         public User getUserByID(int thisId)
         {
             using (var db = new db_a7d4c3_karmaContext())
@@ -24,13 +25,13 @@ namespace karma.Pages
             }
             
         }
-        protected override void OnInitialized()
+        protected override async Task OnInitializedAsync()
         {
             using (var db = new db_a7d4c3_karmaContext())
             {
-                _announcements = db.Announcements.OrderByDescending(x => x.Added).ToList();
-                _listings = db.Listings.OrderByDescending(x => x.Added).ToList();
-                _messages = db.Messages.ToList();
+                _announcements = await db.Announcements.OrderByDescending(x => x.Added).ToListAsync();
+                _listings = await db.Listings.OrderByDescending(x => x.Added).ToListAsync();
+                _messages = db.Messages.ToListAsync();
             }
         }
         async Task OpenDialogConfirmationListing(int Id)

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using karma.Components.Dialogs;
 using MudBlazor;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace karma.Pages
@@ -79,7 +80,7 @@ namespace karma.Pages
             }
         }
 
-        protected override void OnInitialized()
+        protected override async Task OnInitializedAsync()
         {
             // REQUIREMENT 2.4
             var titleAnnouncer = new TitleAnnouncer();
@@ -90,7 +91,7 @@ namespace karma.Pages
 
             using (var db = new db_a7d4c3_karmaContext())
             {
-                _announcements = db.Announcements.OrderByDescending(x => x.Added).ToList();
+                _announcements = await db.Announcements.OrderByDescending(x => x.Added).ToListAsync();
             }
             if (_printAnnouncementTitle)
             {
@@ -111,6 +112,7 @@ namespace karma.Pages
                 }
             }
         }
+        
         // Define dialog
         //REQUIREMENT 2.8
         async Task OpenDialog()
