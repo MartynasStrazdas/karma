@@ -1,4 +1,6 @@
-﻿@inject ISnackbar Snackbar
+﻿@using System
+@using System.IO
+@inject ISnackbar Snackbar
 
 <MudDialog>
     <TitleContent>
@@ -23,13 +25,32 @@
                       Required="true"
                       RequiredError="Name is required" />
         <MudTextField @bind-Value="@_surname"
-                      Label="Surname"
-                      Required="true"
-                      RequiredError="Surname is required" />
+                      Label="Surname" />
         <MudTextField @bind-Value="@_email"
                       Label="Email"
                       Required="true"
                       RequiredError="Email is required" />
+        <MudRadioGroup @bind-SelectedOption="@_isUser">
+            <MudRadio Option="true"
+                      Color="Color.Primary"
+                      Size="Size.Medium">User</MudRadio>
+            <br>
+            <MudRadio Option="false"
+                      Color="Color.Primary"
+                      Size="Size.Medium">Charity</MudRadio>
+        </MudRadioGroup>
+
+        <InputFile id="fileInput"
+                   OnChange="UploadImage"
+                   hidden multiple accept=".jpg, .jpeg, .png" />
+
+        <MudButton HtmlTag="label"
+                   Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Filled.CloudUpload"
+                   for="fileInput">
+            Upload profile picture
+        </MudButton>
     </DialogContent>
 
     <DialogActions>
@@ -60,18 +81,70 @@
     private string _name { get; set; }
     private string _surname { get; set; }
     private string _email { get; set; }
+    private byte[] _byteArray { get; set; }
+    private bool _isUser { get; set; }
 
     private void Cancel()
     {
         MudDialog.Cancel();
     }
 
+    private async Task UploadImage(InputFileChangeEventArgs e)
+    {
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopCenter;
+        MemoryStream ms = new MemoryStream();
+        var fileExtension = e.File.Name.Split(".").Last();
+        if (e.File.Size > 1000000)
+        {
+            Snackbar.Add($"File is too large (max: 1 MB)", Severity.Error);
+        }
+        else if (fileExtension != "jpg" &&
+                    fileExtension != "jpeg" &&
+                    fileExtension != "png")
+        {
+            Snackbar.Add($"{e.File.Name.Split(".").Last()} file is not allowed (allowed: jpg, jpeg, png)", Severity.Error);
+        }
+        else
+        {
+            await e.File.OpenReadStream().CopyToAsync(ms);
+            _byteArray = ms.ToArray();
+        }
+    }
+
     private void Register()
     {
         if (!String.IsNullOrWhiteSpace(_username) &&
-            !String.IsNullOrWhiteSpace(_password))
+            !String.IsNullOrWhiteSpace(_password) &&
+            !String.IsNullOrWhiteSpace(_name) &&
+            !String.IsNullOrWhiteSpace(_email) &&
+            _byteArray != null)
         {
-            MudDialog.Close();
+            using (var db = new db_a7d4c3_karmaContext())
+            {
+                if (db.Users.Any(u => u.Username == _username))
+                {
+                    Snackbar.Add("User already exists", Severity.Warning);
+                    MudDialog.Cancel();
+                }
+                else
+                {
+                    User user = new User
+                    {
+                        Name = _name,
+                        Surname =_surname,
+                        Username = _username,
+                        Password = _password,
+                        Email = _email,
+                        IsUser = true,
+                        IsCharity = !_isUser,
+                        IsAdmin = false
+                    };
+                    db.Add(user);
+                    db.SaveChanges();
+                    Snackbar.Add("Registration successful!", Severity.Success);
+                    MudDialog.Close();
+                }
+            }
         }
     }
 }
