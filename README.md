@@ -21,3 +21,6 @@ Built with Visual Studio 2019 Community. Copy the `.env.sample` file to `.env` a
 - [C# conventions by Microsoft](https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions)
    - [dotnet-format](https://github.com/dotnet/format)
 - [HTML/CSS guidelines by Google](https://google.github.io/styleguide/htmlcssguide.html)
+
+# ER Diagram
+![ER Diagram](er-diagram.png)
