@@ -25,22 +25,26 @@
             <MudSkeleton />
             <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="1000px" Height="500px" />
         }
-            else
+        else
+        {
+            <ul>
+            @foreach (var announcement in _announcements)
             {
-<ul>
-    @foreach (var announcement in _announcements)
-    {
-<li>
-    @if (_mainUser.IsAdmin == true)
-    {
-<img class="delete-btn" @onclick="() => OpenDialogConfirmation(announcement.Id)" src="img/delete-btn.png">                    }
-    <img class="profile-pic" src="data:image;base64,@System.Convert.ToBase64String(@announcement.UserImg)" alt="Charity logo">
-    <h1 class="charity-title">@announcement.Title</h1>
-    <h3 class="valid-date">Valid until: @announcement.ValidUntil</h3>
-    <p class="post-text">@announcement.Description</p>
-    <img class="post-pic" src="data:image;base64,@System.Convert.ToBase64String(@announcement.AnnouncementImg)" alt="Announcement image" />
-    <a class="upvote-btn">Share!</a>
-</li>                }
-</ul>}
+                <li>
+                    @if (_mainUser.IsAdmin == true)
+                    {
+                        <img class="delete-btn" @onclick="() => OpenDialogConfirmation(announcement.Id)" src="img/delete-btn.png">
+                        <img class="delete-btn" @onclick="() => OpenDialogUpdateAnnouncement(announcement.Id)" src="img/edit-btn.png">
+                    }
+                    <img class="profile-pic" src="data:image;base64,@System.Convert.ToBase64String(@announcement.UserImg)" alt="Charity logo">
+                    <h1 class="charity-title">@announcement.Title</h1>
+                    <h3 class="valid-date">Valid until: @announcement.ValidUntil</h3>
+                    <p class="post-text">@announcement.Description</p>
+                    <img class="post-pic" src="data:image;base64,@System.Convert.ToBase64String(@announcement.AnnouncementImg)" alt="Announcement image" />
+                    <a class="upvote-btn">Share!</a>
+                </li>                
+            }
+            </ul>
+        }
     </div>
 </div>

@@ -49,6 +49,7 @@ namespace karma.Pages
                     db.Listings.Attach(listing);
                     db.Listings.Remove(listing);
                     db.SaveChanges();
+                    _listings = await db.Listings.OrderByDescending(x => x.Added).ToListAsync();
                     NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
                 }
             }
@@ -68,6 +69,7 @@ namespace karma.Pages
                     db.Announcements.Attach(announcement);
                     db.Announcements.Remove(announcement);
                     db.SaveChanges();
+                    _announcements = await db.Announcements.OrderByDescending(x => x.Added).ToListAsync();
                 }
             }
         }

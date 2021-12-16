@@ -6,7 +6,7 @@
 <MudDialog>
     <TitleContent>
         <MudText Typo="Typo.h6">
-            New listing
+            New announcement
         </MudText>
     </TitleContent>
 
@@ -70,7 +70,7 @@
         if (!String.IsNullOrWhiteSpace(_description) &&
             _byteArray != null)
         {
-            Announcement announcement = new Announcement { Title = _mainUser.Name, Description = _description, UserId = _mainUser.Id, AnnouncementImg = _byteArray,  UserImg = _mainUser.Img};
+            Announcement announcement = new Announcement { Title = _mainUser.Name, Description = _description, UserId = _mainUser.Id, Added = DateTime.Now, ValidUntil = DateTime.Now, AnnouncementImg = _byteArray,  UserImg = _mainUser.Img };
 
             Snackbar.Add("Announcement added!", Severity.Success);
             MudDialog.Close(DialogResult.Ok(announcement));
