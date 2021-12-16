@@ -152,6 +152,27 @@ namespace karma.Pages
                     db.Announcements.Attach(announcement);
                     db.Announcements.Remove(announcement);
                     db.SaveChanges();
+                    _announcements = await db.Announcements.OrderByDescending(x => x.Added).ToListAsync();
+                }
+            }
+        }
+
+        async Task OpenDialogUpdateAnnouncement(int Id)
+        {
+            DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true };
+            var dialog = _dialogService.Show<DialogUpdateAnnouncement>("Update", options);
+            var result = await dialog.Result;
+            
+            if (!result.Cancelled)
+            {   
+                var announcement = (Announcement) result.Data;
+                announcement.Id = Id;
+                using (var db = new db_a7d4c3_karmaContext())
+                {
+                    db.Announcements.Attach(announcement);
+                    db.Announcements.Update(announcement);
+                    db.SaveChanges();
+                    _announcements = await db.Announcements.OrderByDescending(x => x.Added).ToListAsync();
                 }
             }
         }

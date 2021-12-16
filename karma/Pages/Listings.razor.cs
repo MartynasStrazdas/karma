@@ -38,9 +38,8 @@ namespace karma.Pages
                 {
                     db.Add(listing);
                     db.SaveChanges();
+                    _listings = await db.Listings.OrderByDescending(x => x.Added).ToListAsync();
                 }
-
-                _listings.Insert(0, listing);
             }
         }
         async Task OpenDialogApply(int Id)
@@ -57,6 +56,7 @@ namespace karma.Pages
                 {
                     db.Messages.Add(message);
                     db.SaveChanges();
+                    _listings = await db.Listings.OrderByDescending(x => x.Added).ToListAsync();
                 }
             }
         }
@@ -66,7 +66,6 @@ namespace karma.Pages
             var dialog = _dialogService.Show<DialogConfirmation>("Confirmation", options);
             var result = await dialog.Result;
 
-
             if (!result.Cancelled)
             {
                 var listing = new Listing { Id = Id };
@@ -75,6 +74,7 @@ namespace karma.Pages
                     db.Listings.Attach(listing);
                     db.Listings.Remove(listing);
                     db.SaveChanges();
+                    _listings = await db.Listings.OrderByDescending(x => x.Added).ToListAsync();
                 }
             }
         }
