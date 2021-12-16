@@ -18,7 +18,6 @@ namespace karma.Pages
         private List<User> _users;
         private IEnumerable<RenderedMessage> renderedMessages;
         private IEnumerable<IGrouping<bool,User>> charityCount;
-        //private List<RenderedMessage> _renderedMessages;
 
         public User getUserByID(int thisId)
         {
@@ -57,7 +56,7 @@ namespace karma.Pages
             //REQUIREMENT 3.10 LINQ GROUPBY
             charityCount = _users.GroupBy(e => e.IsCharity);
         }
-
+      
         async Task OpenDialogConfirmationListing(int Id)
         {
             DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true };

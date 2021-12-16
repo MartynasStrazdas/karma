@@ -39,6 +39,7 @@ namespace karma.Pages
                     db.Add(listing);
                     db.SaveChanges();
                     _listings = await db.Listings.OrderByDescending(x => x.Added).ToListAsync();
+                    Logger.WriteLog($"{MainUser.Name} added a listing ID:{listing.Id}");
                 }
             }
         }
@@ -57,6 +58,7 @@ namespace karma.Pages
                     db.Messages.Add(message);
                     db.SaveChanges();
                     _listings = await db.Listings.OrderByDescending(x => x.Added).ToListAsync();
+
                 }
             }
         }
@@ -75,6 +77,7 @@ namespace karma.Pages
                     db.Listings.Remove(listing);
                     db.SaveChanges();
                     _listings = await db.Listings.OrderByDescending(x => x.Added).ToListAsync();
+                    Logger.WriteLog($"{MainUser.Name} removed a listing ID:{listing.Id}");
                 }
             }
         }

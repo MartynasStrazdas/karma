@@ -46,6 +46,7 @@ namespace karma.Pages
                     db.Add(charity);
                     db.SaveChanges();
                     _charities = await db.Charities.OrderByDescending(x => x.Added).ToListAsync();
+                    Logger.WriteLog($"{MainUser.Name} added a charity ID:{charity.Id}");
                 }
             }
         }
@@ -68,6 +69,7 @@ namespace karma.Pages
                     db.Charities.Remove(charity);
                     db.SaveChanges();
                     _charities = await db.Charities.OrderByDescending(x => x.Added).ToListAsync();
+                    Logger.WriteLog($"{MainUser.Name} remvoed a charity ID:{charity.Id}");
                 }
             }
         }
