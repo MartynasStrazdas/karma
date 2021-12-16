@@ -131,6 +131,7 @@ namespace karma.Pages
                 {
                     db.Add(announcement);
                     db.SaveChanges();
+                    Logger.WriteLog($"{_mainUser.Name} added an announcement ID:{announcement.Id}");
                 }
 
                 _announcements.Insert(0, announcement);
@@ -153,6 +154,7 @@ namespace karma.Pages
                     db.Announcements.Remove(announcement);
                     db.SaveChanges();
                     _announcements = await db.Announcements.OrderByDescending(x => x.Added).ToListAsync();
+                    Logger.WriteLog($"{_mainUser.Name} removed an announcement ID:{announcement.Id}");
                 }
             }
         }
@@ -173,6 +175,7 @@ namespace karma.Pages
                     db.Announcements.Update(announcement);
                     db.SaveChanges();
                     _announcements = await db.Announcements.OrderByDescending(x => x.Added).ToListAsync();
+                    Logger.WriteLog($"{_mainUser.Name} updated an announcement ID:{announcement.Id}");
                 }
             }
         }

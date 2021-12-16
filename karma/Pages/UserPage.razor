@@ -26,7 +26,7 @@
                   }
                     else
                     {
-                        @if (_mainUser.IsAdmin)
+                        @if (_mainUser.IsAdmin && charityCount != null && charityCount != null)
                         {
                             <h1>Charity count: @charityCount.Count()</h1>
                             @foreach(var groupedCharities in charityCount)
